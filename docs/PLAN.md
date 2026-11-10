@@ -1,9 +1,11 @@
 # Plan: FC-menu–style portfolio (TDD, phased, PR per phase)
 
 ## Context
+
 Daniel wants a personal portfolio that feels like the FC 27 main menu: a full-bleed stadium scene, a big vertical uppercase menu on the left that fades away from the selected item, and a preview panel that changes with the selection ("Dive straight into the action… [Enter Kick Off]"). Every menu selection should open deeper detail. The content comes from the pasted resume. Work must be test-driven and split into small phases, each opened as a GitHub PR so it can be reviewed and tracked before the next one starts.
 
 **Decisions made:**
+
 - **Stack:** React + TypeScript + Vite. Vitest + React Testing Library for unit and component tests, Playwright for real-browser e2e. Three.js only where it earns its place (optional Phase 10).
 - **Workflow:** public GitHub repo `portfolio`. One branch, one issue and one PR per phase. CI runs on every PR, and each merge to `main` auto-deploys to GitHub Pages.
 - **Menu labels (plain):** ABOUT, PROJECTS, EXPERIENCE, SKILLS, EDUCATION, CERTIFICATIONS, CONTACT.
@@ -12,6 +14,7 @@ Daniel wants a personal portfolio that feels like the FC 27 main menu: a full-bl
 - **Privacy:** the phone number is never published, and a test enforces this. Email, LinkedIn and GitHub are shown.
 
 ## Target layout
+
 ```
 Main menu (desktop)                                         Detail screen (e.g. PROJECTS)
 ┌───────────────────────────────────────────────────┐       ┌──────────────────────────────────────────┐
@@ -26,9 +29,11 @@ Main menu (desktop)                                         Detail screen (e.g. 
 │ ↑↓ Navigate ⏎ Select           [📄 Resume]        │       └──────────────────────────────────────────┘
 └───────────────────────────────────────────────────┘
 ```
+
 Interaction: hovering or pressing arrow keys selects an item and updates the preview panel and the background. Clicking an item that is already selected, pressing Enter or using the CTA opens that section's screen; on touch, the first tap selects and the second tap enters. Tiles inside a screen open sub-details. Esc or Backspace goes back, and focus returns to the item you came from.
 
 ## Project structure (built up over the phases)
+
 ```
 src/
   content/   types.ts · resume.ts (single source of truth) · sections.ts (menu config + preview copy)
@@ -43,9 +48,11 @@ e2e/         smoke · menu · navigation · screens · a11y · mobile specs
 .github/workflows/  ci.yml · deploy.yml
 docs/        PLAN.md (copy of this plan) · CREDITS.md (photo licences) · screenshots/phase-N/
 ```
+
 Libraries: react-router v7 (data router; `viewTransition` for animated screen changes), @fontsource/barlow + barlow-condensed (self-hosted heavy uppercase type), lucide-react (UI icons), sharp (image optimisation script), @axe-core/playwright. Optional: three + @react-three/fiber.
 
 ## How every phase runs (TDD + review loop)
+
 1. Create branch `phase-N-<slug>` from `main`.
 2. **Red:** write the phase's tests from its acceptance list, run them, and confirm they fail for the right reason. Commit as `test(pN): …`.
 3. **Green:** write the minimum implementation that passes. Commit as `feat(pN): …`.
@@ -57,6 +64,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
 ---
 
 ## Phase 0: Scaffold, test harness, CI/CD, tracking
+
 - **Build:**
   - Vite React-TS with strict TS. ESLint (typescript-eslint, react-hooks, jsx-a11y) and Prettier.
   - Vitest + jsdom + RTL + user-event + jest-dom. Playwright with Chromium desktop and a Pixel 7 viewport, running against `vite preview`.
@@ -68,6 +76,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
 - **Review focus:** tooling config only. The site is live at `https://<you>.github.io/portfolio/` from this phase on.
 
 ## Phase 1: Content model from the resume (no UI)
+
 - **Build:**
   - `content/types.ts`.
   - `content/resume.ts`: profile, education, 3 roles, 3 projects, skills in 4 categories, 2 certifications, contact.
@@ -82,6 +91,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - The email is valid, and the LinkedIn and GitHub links are `https://` URLs.
 
 ## Phase 2: Menu navigation logic (pure)
+
 - **Build:**
   - `menuReducer.ts`: NEXT, PREV, SELECT(i), FIRST and LAST. It clamps at the ends.
   - `useMenuKeyboard.ts` maps keys to actions: ↑/W, ↓/S, Home/End, and Enter/Space to activate. It ignores keys pressed with modifiers or while typing in inputs.
@@ -90,6 +100,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - `renderHook` + user-event tests for each key mapping and for the ignored cases.
 
 ## Phase 3: Main menu layout and theme
+
 - **Build:**
   - `tokens.css`: dark navy overlay, white text, one accent colour for focus and XP, Barlow 800 uppercase type scale.
   - `MainMenu` grid with a `BrandMark` ("DD" slanted SVG, top-left) and an `IconRail` (settings, GitHub, LinkedIn, email in a vertical stack of small circles).
@@ -102,6 +113,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - e2e: pressing ↓↓ selects EXPERIENCE.
 
 ## Phase 4: Preview panel and stadium scenes
+
 - **Build:**
   - `PreviewPanel`: kicker, big headline, blurb, highlights joined with " · ", and a white pill CTA "⏎ Enter Projects".
   - `SceneBackground`: one stacked image layer per section, crossfaded. Left and bottom gradients keep the text legible. A slow Ken Burns drift runs only when reduced motion is off, and the next and previous scenes are preloaded.
@@ -114,6 +126,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
 - **Gate:** after review, decide whether the static photos feel flat enough to want Phase 10 (Three.js).
 
 ## Phase 5: Routing, transitions, screen shell
+
 - **Build:**
   - `createBrowserRouter` with basename `BASE_URL`. Routes: `/`, `/about`, `/projects`, `/projects/:slug`, `/experience`, `/experience/:id`, `/skills`, `/education`, `/certifications`, `/contact` and `*`.
   - `ScreenLayout`: breadcrumb "MAIN MENU › X", big title, footer key prompts with a clickable "Esc Back", and view-transition slide/fade animations.
@@ -128,6 +141,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - e2e: the browser Back button behaves the same way.
 
 ## Phase 6: Hub components and Projects
+
 - **Build:**
   - `TabBar` (Q/E and ←/→ switch tabs, FC-style shoulder prompts).
   - `TileGrid`/`Tile` (2D arrow navigation and a selected glow).
@@ -139,6 +153,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - An unknown slug shows NotFound.
 
 ## Phase 7: Experience, Education, Certifications
+
 - **Build:**
   - Experience tiles in timeline order, each leading to `RoleDetail` with bullets and stack.
   - Education screen: UPEI, the degree, a "Minor in Mathematics" line, and coursework chips.
@@ -149,6 +164,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - The role detail route works, and so do Back and focus restore.
 
 ## Phase 8: About, Skills, Contact, plus resume download
+
 - **Build:**
   - About: a bio plus a "latest news" card list (e.g. the summer role and the Amobys internship).
   - Skills: card tiles grouped by category, with tabs for Languages, Frameworks, Data & Cloud and Tools.
@@ -159,6 +175,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - The phone number is not in the rendered DOM.
 
 ## Phase 9: HUD and polish
+
 - **Build:**
   - `TopHud`: an "EXPLORED n/7" XP bar that tracks unique sections visited, persisted to localStorage inside try/catch.
   - A bottom-right `Toast`: "Download my resume" on first visit. When all 7 sections are explored, it says "Season objective complete, let's talk" and links to Contact.
@@ -173,6 +190,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - The motion toggle removes animation classes.
 
 ## Phase 10 (optional, decided at the Phase 4 gate): Three.js scene layer
+
 - **Build:**
   - A lazy-loaded R3F canvas over the photo: a procedural football that rolls and turns when the selection changes, floodlight dust particles, and slight mouse parallax.
   - `shouldRender3D()` gates it. It renders only with WebGL available, reduced motion off, the setting on, no `saveData`, and a width ≥768.
@@ -185,6 +203,7 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - The three chunk is not in the initial bundle.
 
 ## Phase 11: Responsive, accessibility, performance, launch
+
 - **Build:**
   - Final mobile layout.
   - Meta, Open Graph image (a menu screenshot), favicon (the monogram).
@@ -200,12 +219,14 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
 ---
 
 ## Inputs needed from you (placeholders are used until then)
+
 1. **Before Phase 0:** run `! gh auth login` so I can create the public `portfolio` repo and enable Pages.
 2. **By Phase 1:** your LinkedIn URL and GitHub URL (I'd guess github.com/abeikud from your git config; please confirm). Also the StartingFive and DIsland repo or demo links, and what "playing to first to points" should say (first to how many points?).
 3. **By Phase 8:** your resume PDF, which goes in `public/resume.pdf`.
 4. **Phase 4:** approve the candidate stadium photos.
 
 ## Verification
+
 - Every phase runs `npm run check`: tsc, eslint, `vitest run --coverage` with the 80% gate, and `playwright test` against the production build. The same checks run in GitHub Actions on the PR.
 - For UI phases, run `npm run dev` and compare against the FC reference screenshots. Committed screenshots in the PR make visual review possible without running anything.
 - After each merge, the live GitHub Pages URL shows the cumulative progress. Issues closed by PRs and the "v1 launch" milestone track overall status.
