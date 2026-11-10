@@ -1,0 +1,19 @@
+# deps & builds
+node_modules/
+dist/
+coverage/
+
+# playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# editor / os
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.log
+.env*
+!.env.example
