@@ -2,6 +2,7 @@ import { useHubMemory } from '../../app/hubMemory';
 import { acronym, formatRange } from '../../content/format';
 import { resume } from '../../content/resume';
 import { HubTile, type TileVariant } from '../hub/HubTile';
+import { PROMPTS } from '../hud/prompts';
 import { TileGrid } from '../hub/TileGrid';
 import { ScreenLayout } from '../screens/ScreenLayout';
 import { sectionScreenProps } from '../screens/sectionMeta';
@@ -13,7 +14,11 @@ export function ExperienceScreen() {
   const tiles = useHubMemory('experience');
 
   return (
-    <ScreenLayout {...sectionScreenProps('experience')} focusTitle={!tiles.restoring}>
+    <ScreenLayout
+      prompts={[PROMPTS.move, PROMPTS.open]}
+      {...sectionScreenProps('experience')}
+      focusTitle={!tiles.restoring}
+    >
       <TileGrid
         label="Roles"
         items={resume.experience.map((role, i) => ({

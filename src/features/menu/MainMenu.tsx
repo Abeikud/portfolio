@@ -1,7 +1,9 @@
-import { useEffect, useEffectEvent, useId, useReducer, useRef } from 'react';
+import { useEffect, useEffectEvent, useId, useReducer, useRef, type ReactNode } from 'react';
 import { sections as defaultSections } from '../../content/sections';
 import type { Section, SectionId } from '../../content/types';
 import { IconRail } from '../hud/IconRail';
+import { KeyPrompts } from '../hud/KeyPrompts';
+import { PROMPTS } from '../hud/prompts';
 import { SceneBackground } from '../scene/SceneBackground';
 import { BrandMark } from './BrandMark';
 import { createMenuState, menuReducer } from './menuReducer';
@@ -18,6 +20,10 @@ export interface MainMenuProps {
   onSelectionChange?: (section: Section) => void;
   /** Focus the selected item on mount, e.g. when returning from a screen. */
   autoFocusSelected?: boolean;
+  /** Extra control at the top of the icon rail (the settings gear). */
+  railLeading?: ReactNode;
+  /** Overlay content for the screen corner (the objective toast). */
+  children?: ReactNode;
 }
 
 /** The home screen: stadium scene, brand, icon rail, section menu and preview. */
@@ -27,6 +33,8 @@ export function MainMenu({
   initialSelectedId,
   onSelectionChange,
   autoFocusSelected = false,
+  railLeading,
+  children,
 }: MainMenuProps) {
   const [state, dispatch] = useReducer(menuReducer, undefined, () =>
     createMenuState(
@@ -67,7 +75,7 @@ export function MainMenu({
       <header className={styles.top}>
         <BrandMark />
       </header>
-      <IconRail className={styles.rail} />
+      <IconRail className={styles.rail} leading={railLeading} />
       <div className={styles.menu}>
         <MenuList
           items={sections}
@@ -81,6 +89,10 @@ export function MainMenu({
       <div className={styles.preview}>
         {current && <PreviewPanel section={current} blurbId={blurbId} />}
       </div>
+      <div className={styles.prompts}>
+        <KeyPrompts prompts={[PROMPTS.navigate, PROMPTS.select]} />
+      </div>
+      {children}
     </div>
   );
 }

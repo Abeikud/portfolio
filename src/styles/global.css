@@ -68,3 +68,16 @@ a:hover {
     transform: translateX(1.5%);
   }
 }
+
+/* Settings → Reduce motion: switch every animation and transition off. */
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+:root[data-motion='reduced']::view-transition-old(root),
+:root[data-motion='reduced']::view-transition-new(root) {
+  animation: none;
+}

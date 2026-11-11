@@ -1,10 +1,12 @@
-import { ChevronLeft } from 'lucide-react';
 import { useEffect, useEffectEvent, useRef, type ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useMenuSelection } from '../../app/menuSelectionContext';
+import { usePlayer } from '../../app/playerContext';
 import { useBackKey } from '../../app/useBackKey';
 import type { SectionId } from '../../content/types';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { KeyPrompts } from '../hud/KeyPrompts';
+import type { Prompt } from '../hud/prompts';
 import { SceneBackground } from '../scene/SceneBackground';
 import styles from './ScreenLayout.module.css';
 
@@ -26,6 +28,8 @@ export interface ScreenLayoutProps {
   focusTitle?: boolean;
   /** One-line intro under the title. */
   intro?: string;
+  /** Control hints shown after the Back prompt. */
+  prompts?: readonly Prompt[];
   children: ReactNode;
 }
 
@@ -47,12 +51,14 @@ export function ScreenLayout({
   trail = [],
   focusTitle = true,
   intro,
+  prompts = [],
   children,
 }: ScreenLayoutProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const headingRef = useRef<HTMLHeadingElement>(null);
   const { setSelectedId, markScreenVisit } = useMenuSelection();
+  const { markVisited } = usePlayer();
 
   useDocumentTitle(documentTitle);
 
@@ -64,9 +70,12 @@ export function ScreenLayout({
 
   // Keep the menu in sync (deep links included) and flag the coming return.
   useEffect(() => {
-    if (sectionId) setSelectedId(sectionId);
+    if (sectionId) {
+      setSelectedId(sectionId);
+      markVisited(sectionId);
+    }
     markScreenVisit();
-  }, [sectionId, setSelectedId, markScreenVisit]);
+  }, [sectionId, setSelectedId, markScreenVisit, markVisited]);
 
   const back = () => {
     // Reached by an in-app link (from the menu, a hub, the About news…): pop
@@ -109,12 +118,8 @@ export function ScreenLayout({
 
       <div className={styles.content}>{children}</div>
 
-      <footer className={styles.prompts}>
-        <button type="button" className={styles.prompt} onClick={back}>
-          <kbd className={styles.key}>Esc</kbd>
-          <ChevronLeft className={styles.chevron} aria-hidden="true" />
-          Back
-        </button>
+      <footer className={styles.footer}>
+        <KeyPrompts prompts={prompts} onBack={back} />
       </footer>
     </div>
   );

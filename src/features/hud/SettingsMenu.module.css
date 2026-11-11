@@ -1,0 +1,120 @@
+.wrap {
+  position: relative;
+}
+
+/* Same round chip as the other icon-rail links. */
+.gear {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 50%;
+  background: var(--color-chip);
+  color: var(--color-ink);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+
+.gear svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.gear:hover,
+.gear[aria-expanded='true'] {
+  background: var(--color-chip-hover);
+}
+
+.gear[aria-expanded='true'] {
+  transform: rotate(60deg);
+}
+
+.gear:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 0.75rem);
+  z-index: var(--z-hud);
+  width: 15rem;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 0.8rem;
+  background: rgb(8 12 26 / 0.94);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.5);
+}
+
+.title {
+  margin: 0 0 0.7rem;
+  color: var(--color-ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.35rem 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.track {
+  position: relative;
+  width: 2.4rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.2);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.thumb {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  background: var(--color-ink);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.switch[aria-checked='true'] .track {
+  background: var(--color-accent);
+}
+
+.switch[aria-checked='true'] .thumb {
+  transform: translateX(1.05rem);
+}
+
+/* Phones: the rail is horizontal at the top right, so open downwards. */
+@media (max-width: 40rem) {
+  .panel {
+    top: calc(100% + 0.6rem);
+    right: 0;
+    left: auto;
+  }
+}

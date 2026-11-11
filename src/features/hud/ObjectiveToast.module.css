@@ -1,0 +1,95 @@
+/* Outlined toast in the corner, like a console's "objectives" nudge. */
+.toast {
+  position: absolute;
+  right: var(--gutter-x);
+  bottom: calc(var(--gutter-y) * 0.6 + 1.6rem);
+  z-index: var(--z-ui);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: min(26rem, calc(100% - 2 * var(--gutter-x)));
+  padding: 0.6rem 0.6rem 0.6rem 0.85rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.6rem;
+  background: rgb(6 20 18 / 0.78);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 24px rgb(60 242 166 / 0.15);
+  font-size: 0.85rem;
+  animation: rise var(--dur-med) var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+.icon {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--color-accent);
+}
+
+.toast[data-complete='true'] .icon {
+  color: #fbbf24;
+}
+
+.text {
+  line-height: 1.35;
+}
+
+.cta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cta:hover {
+  color: var(--color-bg);
+}
+
+.cta svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus-visible {
+  background: var(--color-chip);
+  color: var(--color-ink);
+}
+
+.close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Phones: full width along the bottom, above the photo credit. */
+@media (max-width: 40rem) {
+  .toast {
+    left: var(--gutter-x);
+    max-width: none;
+  }
+}

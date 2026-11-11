@@ -1,6 +1,7 @@
 import { useScreenMemory } from '../../app/screenMemory';
 import { resume } from '../../content/resume';
 import type { SkillCategoryId } from '../../content/types';
+import { PROMPTS } from '../hud/prompts';
 import { TabBar } from '../hub/TabBar';
 import { panelDomId, tabDomId } from '../hub/tabIds';
 import { ScreenLayout } from '../screens/ScreenLayout';
@@ -34,7 +35,7 @@ export function SkillsScreen() {
   const category = resume.skills.find((c) => c.id === tabMemory.selected) ?? resume.skills[0]!;
 
   return (
-    <ScreenLayout {...sectionScreenProps('skills')}>
+    <ScreenLayout prompts={[PROMPTS.tabs]} {...sectionScreenProps('skills')}>
       <TabBar
         label="Skill categories"
         tabs={tabs}

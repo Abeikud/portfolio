@@ -30,6 +30,7 @@
   /* layers */
   --z-scene: 0;
   --z-ui: 10;
+  --z-hud: 20;
 }
 
 @media (prefers-reduced-motion: reduce) {

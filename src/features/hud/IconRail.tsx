@@ -23,9 +23,17 @@ const links: RailLink[] = [
 ];
 
 /** The column of small round shortcuts beside the menu. */
-export function IconRail({ className = '' }: { className?: string }) {
+export function IconRail({
+  className = '',
+  leading,
+}: {
+  className?: string;
+  /** Extra control at the top of the rail (the settings gear). */
+  leading?: ReactNode;
+}) {
   return (
     <ul className={`${styles.rail} ${className}`} aria-label="Elsewhere">
+      {leading && <li>{leading}</li>}
       {links.map(({ label, href, icon, external }) => (
         <li key={label}>
           <a
