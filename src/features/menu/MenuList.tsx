@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useRef, type MouseEvent, type PointerEvent } from 'react';
+import { useEffect, useEffectEvent, useRef, type MouseEvent } from 'react';
 import styles from './MenuList.module.css';
 
 export interface MenuListItem {
@@ -50,14 +50,9 @@ export function MenuList({
     list.querySelectorAll('button')[selected]?.focus({ preventScroll: true });
   }, [selected]);
 
-  // Only a real hover selects. Touch fires pointer-over right before the click,
-  // which would turn the first tap into an activation.
-  const handlePointerEnter = (index: number) => (event: PointerEvent) => {
-    if (event.pointerType !== 'touch') onSelect(index);
-  };
-
-  // Clicking the selected item enters it. A click on another item selects it
-  // first (touch), unless it came from a keyboard or assistive tech (detail 0).
+  // The mouse is ignored on computers (see global.css), so clicks here are taps:
+  // the first selects, a second on the selected item enters. Clicks from a
+  // keyboard or assistive tech (detail 0) enter straight away.
   const handleClick = (index: number) => (event: MouseEvent) => {
     if (index === selected || event.detail === 0) onActivate(index);
     else onSelect(index);
@@ -76,7 +71,6 @@ export function MenuList({
                 aria-current={isSelected ? 'true' : undefined}
                 aria-describedby={isSelected ? describedBy : undefined}
                 tabIndex={isSelected ? 0 : -1}
-                onPointerEnter={handlePointerEnter(index)}
                 onClick={handleClick(index)}
               >
                 {item.label}

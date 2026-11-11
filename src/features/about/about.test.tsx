@@ -6,10 +6,17 @@ import { renderApp } from '../../test/renderWithRouter';
 import { latestNews } from './latestNews';
 
 describe('latestNews', () => {
-  it('has one item per role, most recent first, linking to the role', () => {
+  it('has one item per role, most recently active first, linking to the role', () => {
     const news = latestNews(resume);
 
-    expect(news.map((n) => n.to)).toEqual(resume.experience.map((r) => `/experience/${r.id}`));
+    // Ordered by end date: Buchanan (to Aug 2026) is newer than Amobys (to Apr 2026).
+    expect(news.map((n) => n.id)).toEqual([
+      'gov-pei-summer-student',
+      'buchanan-technical-support-analyst',
+      'amobys-software-engineer-intern',
+      'upei-teaching-assistant',
+    ]);
+    expect(news.map((n) => n.to)).toEqual(news.map((n) => `/experience/${n.id}`));
     expect(news[0]).toMatchObject({
       when: formatRange(resume.experience[0]!.dates),
       headline: `${resume.experience[0]!.title} · ${resume.experience[0]!.company}`,

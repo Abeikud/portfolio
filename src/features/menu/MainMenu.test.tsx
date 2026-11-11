@@ -66,32 +66,14 @@ describe('MainMenu', () => {
     ]);
   });
 
-  it('selects an item when the mouse hovers it', async () => {
+  it('ignores mouse movement: hovering never changes the selection', async () => {
     const user = userEvent.setup();
     render(<MainMenu />);
 
     await user.hover(item('CONTACT'));
-
-    expect(current()).toEqual([item('CONTACT')]);
-  });
-
-  it('does not select on touch pointer-over (a tap must not activate straight away)', () => {
-    render(<MainMenu />);
-
-    fireEvent.pointerOver(item('SKILLS'), { pointerType: 'touch' });
+    fireEvent.pointerOver(item('SKILLS'), { pointerType: 'mouse' });
 
     expect(current()).toEqual([item('ABOUT')]);
-  });
-
-  it('activates the item under the mouse when clicked', async () => {
-    const user = userEvent.setup();
-    const onActivate = vi.fn();
-    render(<MainMenu onActivate={onActivate} />);
-
-    await user.click(item('SKILLS'));
-
-    expect(onActivate).toHaveBeenCalledTimes(1);
-    expect(onActivate).toHaveBeenCalledWith(section('skills'));
   });
 
   it('on touch, the first tap selects and the second tap activates', async () => {
@@ -196,6 +178,36 @@ describe('MainMenu', () => {
     render(<MainMenu />);
     expect(document.body).toHaveFocus();
   });
+
+  it('← moves focus into the icon rail; ↑ / ↓ move within it', async () => {
+    const user = userEvent.setup();
+    render(<MainMenu />);
+    const rail = within(screen.getByRole('list', { name: 'Elsewhere' }));
+
+    await user.keyboard('{ArrowLeft}');
+    expect(rail.getByRole('link', { name: 'GitHub' })).toHaveFocus();
+
+    await user.keyboard('{ArrowDown}');
+    expect(rail.getByRole('link', { name: 'LinkedIn' })).toHaveFocus();
+    await user.keyboard('{ArrowUp}{ArrowUp}');
+    expect(rail.getByRole('link', { name: 'GitHub' })).toHaveFocus();
+
+    // Moving inside the rail leaves the menu selection alone.
+    expect(current()).toEqual([item('ABOUT')]);
+  });
+
+  it.each(['{ArrowRight}', '{Escape}'])(
+    '%s leaves the rail, back to the selected item',
+    async (key) => {
+      const user = userEvent.setup();
+      render(<MainMenu />);
+      await user.keyboard('{ArrowDown}{ArrowLeft}');
+
+      await user.keyboard(key);
+
+      expect(item('PROJECTS')).toHaveFocus();
+    },
+  );
 
   it('renders the icon rail', () => {
     render(<MainMenu />);

@@ -30,11 +30,13 @@ describe('keyToIntent', () => {
     ['End', 'last'],
     ['Enter', 'activate'],
     [' ', 'activate'],
+    ['ArrowLeft', 'rail'],
+    ['a', 'rail'],
   ])('maps %j to %s', (key, intent) => {
     expect(keyToIntent(press(key))).toBe(intent);
   });
 
-  it.each(['x', 'Tab', 'Escape', 'ArrowLeft', 'ArrowRight', 'Shift'])('ignores %j', (key) => {
+  it.each(['x', 'Tab', 'Escape', 'ArrowRight', 'Shift'])('ignores %j', (key) => {
     expect(keyToIntent(press(key))).toBeNull();
   });
 
@@ -45,6 +47,10 @@ describe('keyToIntent', () => {
       expect(keyToIntent(press('Enter', { [modifier]: true }))).toBeNull();
     },
   );
+
+  it('ignores keys something else already handled (e.g. the icon rail)', () => {
+    expect(keyToIntent({ ...press('ArrowDown'), defaultPrevented: true })).toBeNull();
+  });
 
   it('ignores keys while an IME is composing', () => {
     expect(keyToIntent(press('Enter', { isComposing: true }))).toBeNull();

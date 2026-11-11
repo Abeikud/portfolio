@@ -1,10 +1,18 @@
 import { expect, test } from '@playwright/test';
 
-test('About shows the bio and links its news to roles', async ({ page }) => {
+test('About shows the bio and links its news to roles', async ({ page, isMobile }) => {
   await page.goto('about');
   await expect(page.getByRole('heading', { level: 2, name: 'Daniel Dampson' })).toBeVisible();
+  const firstNews = page.getByRole('list', { name: 'Latest news' }).getByRole('link').first();
 
-  await page.getByRole('list', { name: 'Latest news' }).getByRole('link').first().click();
+  if (isMobile) {
+    await firstNews.tap();
+  } else {
+    // Focus starts on the title; Tab reaches the first news item.
+    await page.keyboard.press('Tab');
+    await expect(firstNews).toBeFocused();
+    await page.keyboard.press('Enter');
+  }
 
   await expect(page).toHaveURL(/\/portfolio\/experience\/gov-pei-summer-student$/);
 });
@@ -20,6 +28,17 @@ test('Skills switches categories with E and shows the right cards', async ({ pag
     'true',
   );
   await expect(page.getByRole('list', { name: 'Skills' }).getByRole('listitem')).toHaveCount(9);
+});
+
+test('the resume opens as a PDF in a new tab', async ({ page, request }) => {
+  await page.goto('contact');
+  const resume = page.getByRole('link', { name: /Resume/ });
+
+  await expect(resume).toHaveAttribute('target', '_blank');
+  await expect(resume).not.toHaveAttribute('download');
+  const res = await request.get((await resume.getAttribute('href'))!);
+  expect(res.status()).toBe(200);
+  expect(res.headers()['content-type']).toContain('application/pdf');
 });
 
 test('Contact links are real', async ({ page }) => {

@@ -26,9 +26,14 @@ test('keyboard: menu → Projects → a project → back → back', async ({ pag
   ).toBeFocused();
 });
 
-test('tabs filter the tiles', async ({ page }) => {
+test('tabs filter the tiles', async ({ page, isMobile }) => {
   await page.goto('projects');
-  await page.getByRole('tab', { name: 'macOS' }).click();
+  if (isMobile) {
+    await page.getByRole('tab', { name: 'macOS' }).tap();
+  } else {
+    await page.keyboard.press('e');
+    await page.keyboard.press('e');
+  }
 
   await expect(tiles(page).getByRole('link')).toHaveCount(1);
   await expect(tiles(page).getByRole('link', { name: 'DIsland' })).toBeVisible();

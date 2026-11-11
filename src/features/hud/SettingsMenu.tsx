@@ -1,6 +1,7 @@
 import { Settings } from 'lucide-react';
 import { useEffect, useEffectEvent, useId, useRef, useState } from 'react';
 import { usePlayer } from '../../app/playerContext';
+import { RAIL_ITEM } from './railItem';
 import styles from './SettingsMenu.module.css';
 
 /** The gear at the top of the icon rail, with a small settings panel. */
@@ -46,6 +47,7 @@ export function SettingsMenu() {
         title="Settings"
         aria-expanded={open}
         aria-controls={panelId}
+        {...{ [RAIL_ITEM]: '' }}
         onClick={() => setOpen((o) => !o)}
       >
         <Settings aria-hidden="true" strokeWidth={2.25} />

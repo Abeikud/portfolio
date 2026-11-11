@@ -30,17 +30,25 @@ describe('Contact screen', () => {
     expect(screen.getByText(resume.contact.email)).toBeInTheDocument();
   });
 
-  it('hides the resume download until a PDF is configured', () => {
+  it('links the real resume PDF from the Contact screen', () => {
+    renderApp('/contact');
+    const link = screen.getByRole('link', { name: /resume/i });
+    expect(link.getAttribute('href')).toMatch(/DDAMPSON_RESUME\.pdf$/);
+  });
+
+  it('hides the resume card until a PDF is configured', () => {
     render(<ContactCards contact={{ ...resume.contact, resumePdf: undefined }} />);
     expect(screen.queryByRole('link', { name: /resume/i })).toBeNull();
   });
 
-  it('offers the resume as a download once a PDF is configured', () => {
+  it('opens the resume PDF in a new tab instead of downloading it', () => {
     render(<ContactCards contact={{ ...resume.contact, resumePdf: 'resume.pdf' }} />);
     const link = screen.getByRole('link', { name: /resume/i });
 
-    expect(link).toHaveAttribute('download');
     expect(link.getAttribute('href')).toMatch(/resume\.pdf$/);
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
+    expect(link).not.toHaveAttribute('download');
   });
 });
 

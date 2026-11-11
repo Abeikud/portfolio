@@ -22,3 +22,15 @@ test.describe('no sideways scrolling', () => {
     }
   }
 });
+
+test('the mouse wheel still scrolls long pages on a computer', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'wheel scrolling is a computer thing');
+  await page.setViewportSize({ width: 1280, height: 480 });
+  await page.goto('projects/startingfive');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page.mouse.move(640, 240);
+
+  await page.mouse.wheel(0, 600);
+
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+});

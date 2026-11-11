@@ -98,13 +98,13 @@ describe('TileGrid', () => {
     expect(onSelect).toHaveBeenLastCalledWith('d');
   });
 
-  it('selects a tile on mouse hover', async () => {
+  it('ignores mouse movement: hovering never changes the selection', async () => {
     const user = userEvent.setup();
     renderGrid();
 
     await user.hover(tile('Thing C'));
 
-    expect(selectedTile()).toBe(tile('Thing C'));
+    expect(selectedTile()).toBe(tile('Thing A'));
   });
 
   it('opens the selected tile with Enter even when focus is elsewhere', async () => {

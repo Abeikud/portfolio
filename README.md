@@ -11,12 +11,19 @@ on those screens open further detail.
 
 ## Controls
 
-|             | Keyboard                          | Mouse / touch                                         |
-| ----------- | --------------------------------- | ----------------------------------------------------- |
-| Move        | ↑ ↓ (menu), arrows / WASD (tiles) | Hover (menu, tiles)                                   |
-| Open        | Enter                             | Click; on touch, tap once to select and again to open |
-| Back        | Esc or Backspace                  | "Back" prompt, breadcrumb, browser Back               |
-| Switch tabs | Q / E (like LB / RB)              | Click a tab                                           |
+On a **computer, the site is played with the keyboard**, like a console. The mouse is
+ignored: clicking brings up a reminder of the controls, and the wheel still scrolls
+long pages. **Phones and tablets** use taps instead: tap once to select, and again to
+open.
+
+|                  | Keys                                                                     |
+| ---------------- | ------------------------------------------------------------------------ |
+| Move             | ↑ ↓ in the menu; arrows or WASD on tiles                                 |
+| Open / select    | Enter                                                                    |
+| Back             | Esc or Backspace                                                         |
+| Switch tabs      | Q / E (like LB / RB)                                                     |
+| Links & settings | ← from the menu into the icon rail; ↑ ↓ inside it; → or Esc to return    |
+| Everything else  | Tab reaches every link, such as news items, contact cards and the resume |
 
 Back always returns you to the item you came from. An **EXPLORED n/7** bar tracks
 the sections you've visited, and visiting all seven completes the season objective.
@@ -72,9 +79,9 @@ with the menu copy in [`src/content/sections.ts`](src/content/sections.ts). Test
 check the content's shape, for example newest-first roles, unique slugs, no
 duplicate skills and no placeholder copy.
 
-**To add a downloadable resume:** put the PDF at `public/resume.pdf` and set
-`resumePdf: 'resume.pdf'` in `resume.contact`. A "Resume" card then appears on the
-Contact screen.
+**Resume:** `public/DDAMPSON_RESUME.pdf`, linked from `resume.contact.resumePdf`.
+It opens in a new tab in the browser's PDF viewer. To update it, replace the file and
+keep the name, or change `resumePdf`.
 
 **Stadium photos:** these are freely licensed images from Wikimedia Commons, listed in
 [`src/content/scenes.json`](src/content/scenes.json) and credited on screen and in
