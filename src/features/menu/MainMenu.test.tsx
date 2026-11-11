@@ -131,6 +131,46 @@ describe('MainMenu', () => {
     expect(onActivate).toHaveBeenCalledWith(section('projects'));
   });
 
+  it('previews the selected section, and the preview follows the selection', async () => {
+    const user = userEvent.setup();
+    render(<MainMenu />);
+    const [about, projects] = sections;
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: about!.preview.headline }),
+    ).toBeInTheDocument();
+
+    await user.keyboard('{ArrowDown}');
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: projects!.preview.headline }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 2, name: about!.preview.headline })).toBeNull();
+  });
+
+  it('describes the selected item with its preview blurb for screen readers', async () => {
+    const user = userEvent.setup();
+    render(<MainMenu />);
+
+    expect(item('ABOUT')).toHaveAccessibleDescription(section('about')!.preview.blurb);
+
+    await user.keyboard('{ArrowDown}');
+
+    expect(item('PROJECTS')).toHaveAccessibleDescription(section('projects')!.preview.blurb);
+    expect(item('ABOUT')).not.toHaveAttribute('aria-describedby');
+  });
+
+  it('switches the background scene with the selection', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<MainMenu />);
+
+    await user.keyboard('{ArrowDown}{ArrowDown}');
+
+    expect(container.querySelector<HTMLElement>('[data-active="true"]')?.dataset.scene).toBe(
+      'experience',
+    );
+  });
+
   it('renders the icon rail', () => {
     render(<MainMenu />);
     expect(screen.getByRole('link', { name: 'GitHub' })).toBeInTheDocument();

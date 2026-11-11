@@ -14,9 +14,21 @@ test('capture the main menu', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('./');
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: `${dir}/${testInfo.project.name}-menu.png` });
+  const labels = await page
+    .getByRole('navigation', { name: 'Main menu' })
+    .getByRole('button')
+    .allTextContents();
+  // Desktop: every section. Mobile: the first two are enough to show the layout.
+  const shots = testInfo.project.name === 'mobile' ? labels.slice(0, 2) : labels;
 
-  await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('ArrowDown');
-  await page.screenshot({ path: `${dir}/${testInfo.project.name}-menu-experience.png` });
+  for (const [i, label] of shots.entries()) {
+    if (i > 0) await page.keyboard.press('ArrowDown');
+    await page
+      .locator('[data-active="true"] img')
+      .evaluate((img: HTMLImageElement) => img.decode());
+    await page.screenshot({
+      path: `${dir}/${testInfo.project.name}-${i + 1}-${label.toLowerCase()}.jpg`,
+      quality: 80,
+    });
+  }
 });
