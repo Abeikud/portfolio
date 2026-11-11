@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { resume } from './resume';
+import { scenes } from './scenes';
 import { sections } from './sections';
 import type { YearMonth } from './types';
 
@@ -152,5 +153,19 @@ describe('contact and privacy', () => {
 
   it('never publishes a phone number anywhere in the content', () => {
     expect(JSON.stringify({ resume, sections })).not.toMatch(PHONE);
+  });
+});
+
+describe('scene photo credits', () => {
+  it.each(sections.map((s) => s.id))('%s has a credited, freely licensed photo', (id) => {
+    const scene = scenes[id];
+
+    expect(scene).toBeDefined();
+    expect(scene.id).toBe(id);
+    expect(scene.artist.trim()).not.toBe('');
+    expect(scene.license).toMatch(/^(CC0|CC BY 4\.0|CC BY-SA 4\.0)$/);
+    expect(scene.licenseUrl).toMatch(/^https:\/\/creativecommons\.org\//);
+    expect(scene.source).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+    expect(scene.position).toMatch(/^\d{1,3}% \d{1,3}%$/);
   });
 });

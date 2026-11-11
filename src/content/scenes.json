@@ -1,0 +1,66 @@
+[
+  {
+    "id": "about",
+    "title": "File:The Tunnel of Hope.jpg",
+    "artist": "Udit Kapoor",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Tunnel_of_Hope.jpg",
+    "position": "50% 45%"
+  },
+  {
+    "id": "projects",
+    "title": "File:Roosevelt High School Wiper Field.jpg",
+    "artist": "Guywelch2000",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Roosevelt_High_School_Wiper_Field.jpg",
+    "position": "60% 60%"
+  },
+  {
+    "id": "experience",
+    "title": "File:DZ6 2360 A peaceful evening at the neighborhood soccer field as players warm up under the floodlights.jpg",
+    "artist": "PattayaPatrol",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:DZ6_2360_A_peaceful_evening_at_the_neighborhood_soccer_field_as_players_warm_up_under_the_floodlights.jpg",
+    "position": "55% 50%"
+  },
+  {
+    "id": "skills",
+    "title": "File:Artificial grass playground - Záskalie - Dolný Kubín 01.jpg",
+    "artist": "Oto Zapletal",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Artificial_grass_playground_-_Z%C3%A1skalie_-_Doln%C3%BD_Kub%C3%ADn_01.jpg",
+    "position": "70% 50%",
+    "soften": 0.8
+  },
+  {
+    "id": "education",
+    "title": "File:Benches in the mist in soccer training field 2.jpg",
+    "artist": "W.carter",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Benches_in_the_mist_in_soccer_training_field_2.jpg",
+    "position": "60% 55%"
+  },
+  {
+    "id": "certifications",
+    "title": "File:Trees around Brastad soccer arena in fog (12).jpg",
+    "artist": "W.carter",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Trees_around_Brastad_soccer_arena_in_fog_(12).jpg",
+    "position": "55% 50%"
+  },
+  {
+    "id": "contact",
+    "title": "File:DZ6 2362 A quiet evening at the stadium - a covered walkway leading down to the green pitch as players practice below.jpg",
+    "artist": "PattayaPatrol",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:DZ6_2362_A_quiet_evening_at_the_stadium_-_a_covered_walkway_leading_down_to_the_green_pitch_as_players_practice_below.jpg",
+    "position": "50% 50%"
+  }
+]

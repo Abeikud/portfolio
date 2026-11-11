@@ -47,3 +47,20 @@ test('the whole menu is visible without scrolling', async ({ page }) => {
     await expect(button).toBeInViewport();
   }
 });
+
+test('the preview panel and background follow the selection', async ({ page }) => {
+  await page.keyboard.press('ArrowDown');
+
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'DIVE STRAIGHT INTO THE BUILD' }),
+  ).toBeVisible();
+  await expect(page.locator('[data-scene="projects"]')).toHaveAttribute('data-active', 'true');
+  await expect(page.getByRole('link', { name: 'Enter Projects' })).toBeInViewport();
+});
+
+test('the active scene photo actually loads', async ({ page }) => {
+  const photo = page.locator('[data-scene="about"] img');
+  await expect
+    .poll(() => photo.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
+    .toBeGreaterThan(0);
+});
