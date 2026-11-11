@@ -30,5 +30,7 @@ test('a root-served build loads, deep-links, and points previews at its own URL'
   await expect(page.getByRole('heading', { level: 1, name: 'StartingFive' })).toBeVisible();
 
   expect((await request.get('/DDAMPSON_RESUME.pdf')).status()).toBe(200);
+  for (const path of ['/favicon.svg', '/favicon.ico', '/apple-touch-icon.png', '/site.webmanifest'])
+    expect((await request.get(path)).status(), path).toBe(200);
   expect(errors).toEqual([]);
 });
