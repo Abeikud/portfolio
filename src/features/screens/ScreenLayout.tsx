@@ -69,9 +69,10 @@ export function ScreenLayout({
   }, [sectionId, setSelectedId, markScreenVisit]);
 
   const back = () => {
-    // Came from the parent inside the app: pop history, so the browser's own
-    // Back/Forward stay meaningful. Deep link: replace this entry instead.
-    if ((location.state as FromState | null)?.from === backTo) navigate(-1);
+    // Reached by an in-app link (from the menu, a hub, the About news…): pop
+    // history so Back returns there and the browser's Back/Forward stay sane.
+    // Deep link: there's nothing of ours behind us, so replace with the parent.
+    if ((location.state as FromState | null)?.from) navigate(-1);
     else navigate(backTo, { replace: true, viewTransition: true });
   };
   useBackKey(back);

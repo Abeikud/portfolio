@@ -1,0 +1,102 @@
+.category {
+  margin: 0 0 1rem;
+  color: var(--color-ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.cards {
+  --card-tint: 60 242 166;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr));
+  gap: clamp(0.6rem, 1.2vw, 0.9rem);
+  max-width: 60rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards[data-category='frameworks'] {
+  --card-tint: 96 165 250;
+}
+
+.cards[data-category='data-cloud'] {
+  --card-tint: 192 132 252;
+}
+
+.cards[data-category='tools'] {
+  --card-tint: 251 191 36;
+}
+
+/* "Element" cards: a big symbol, a position code, the full name. */
+.card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.45rem;
+  padding: 1.6rem 0.75rem 1rem;
+  border: 1px solid rgb(var(--card-tint) / 0.4);
+  border-radius: 0.8rem;
+  background:
+    linear-gradient(180deg, rgb(var(--card-tint) / 0.16), transparent 65%), rgb(10 16 32 / 0.66);
+  backdrop-filter: blur(10px);
+  animation: deal var(--dur-med) var(--ease-out) both;
+  text-align: center;
+}
+
+/* Cards deal in one after another when the tab changes. */
+.card:nth-child(2) {
+  animation-delay: 30ms;
+}
+.card:nth-child(3) {
+  animation-delay: 60ms;
+}
+.card:nth-child(4) {
+  animation-delay: 90ms;
+}
+.card:nth-child(n + 5) {
+  animation-delay: 120ms;
+}
+
+/* Reduced motion: no deal-in at all (zero duration alone still leaves the delays). */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}
+
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+
+.position {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.65rem;
+  color: rgb(var(--card-tint));
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.mark {
+  font-family: var(--font-display);
+  font-size: 2.3rem;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.name {
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
