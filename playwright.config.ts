@@ -23,7 +23,12 @@ export default defineConfig({
     {
       name: 'desktop',
       testIgnore: PAGES_SPEC,
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+        // Software WebGL, so the 3D layer renders the same with or without a GPU (CI).
+        launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
+      },
     },
     { name: 'mobile', testIgnore: PAGES_SPEC, use: { ...devices['Pixel 7'] } },
     // Real WebKit (Safari's engine) on an iPhone-sized touch screen.

@@ -11,6 +11,7 @@ const BUDGETS = [
   ['stylesheet (gzip)', /^assets\/index-.*\.css$/, 'gzip', 12 * KB],
   ['each scene photo', /^assets\/.*\.webp$/, 'raw', 300 * KB],
   ['social preview image', /^og\.jpg$/, 'raw', 100 * KB],
+  ['3D layer chunk (gzip)', /^assets\/Scene3D-.*\.js$/, 'gzip', 170 * KB],
   ['favicon (SVG)', /^favicon\.svg$/, 'raw', 4 * KB],
   [
     'each app icon (PNG/ICO)',
@@ -43,6 +44,18 @@ for (const [label, matcher, measure, max] of BUDGETS) {
     console.log(
       `${ok ? '✓' : '✘'} ${label.padEnd(26)} ${(size / KB).toFixed(1).padStart(7)} KB / ${max / KB} KB  ${file}`,
     );
+  }
+}
+
+// Code that must stay out of the entry script (it loads lazily).
+const EXCLUDED = [
+  ['three.js in the entry script', /^assets\/index-.*\.js$/, /THREE\.WebGLRenderer/],
+];
+for (const [label, matcher, forbidden] of EXCLUDED) {
+  for (const file of files.filter((f) => matcher.test(f))) {
+    const found = forbidden.test(readFileSync(join('dist', file), 'utf8'));
+    failed ||= found;
+    console.log(`${found ? '✘' : '✓'} no ${label.padEnd(23)} ${file}`);
   }
 }
 
