@@ -41,11 +41,13 @@ test('every icon the page declares loads and renders as the "D." monogram', asyn
           const img = new Image();
           img.src = url;
           await img.decode();
+          // Rasters at their own size; the SVG at a typical tab-icon size.
+          const size = url.endsWith('.svg') ? 64 : img.naturalWidth;
           const canvas = document.createElement('canvas');
-          canvas.width = canvas.height = 64;
+          canvas.width = canvas.height = size;
           const ctx = canvas.getContext('2d')!;
-          ctx.drawImage(img, 0, 0, 64, 64);
-          const { data } = ctx.getImageData(0, 0, 64, 64);
+          ctx.drawImage(img, 0, 0, size, size);
+          const { data } = ctx.getImageData(0, 0, size, size);
           let white = 0;
           let tile = 0;
           for (let i = 0; i < data.length; i += 4) {
@@ -59,7 +61,7 @@ test('every icon the page declares loads and renders as the "D." monogram', asyn
             )
               tile++;
           }
-          return { url, white: white / 4096, tile: tile / 4096 };
+          return { url, white: white / size ** 2, tile: tile / size ** 2 };
         }),
       ),
     drawable,

@@ -22,4 +22,5 @@ Regenerate with `npm run scenes -- --force`. The source list is `src/content/sce
 
 - UI icons: [Lucide](https://lucide.dev) (ISC).
 - GitHub mark: path from [Simple Icons](https://simpleicons.org) (CC0).
+- Favicon and home-screen icons: the "D." letterforms are Barlow ExtraBold outlines (SIL Open Font License), converted to SVG paths by `scripts/icons.mjs`.
 - Typeface: [Barlow](https://fonts.google.com/specimen/Barlow) by Jeremy Tribby (SIL Open Font License), self-hosted through Fontsource.
