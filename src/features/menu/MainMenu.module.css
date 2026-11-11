@@ -19,7 +19,8 @@
 .top,
 .rail,
 .menu,
-.preview {
+.preview,
+.prompts {
   position: relative;
   z-index: var(--z-ui);
 }
@@ -31,6 +32,8 @@
 .rail {
   grid-area: rail;
   padding-top: 0.35rem;
+  /* Above the menu, so the settings panel it opens isn't covered by it. */
+  z-index: calc(var(--z-ui) + 1);
 }
 
 .menu {
@@ -41,6 +44,12 @@
   grid-area: preview;
   padding-top: 0.6rem;
   padding-left: clamp(0rem, 2vw, 2rem);
+}
+
+.prompts {
+  position: absolute;
+  bottom: calc(var(--gutter-y) * 0.6);
+  left: var(--gutter-x);
 }
 
 /* Phones: rail beside the brand, then the menu, then the preview below it. */

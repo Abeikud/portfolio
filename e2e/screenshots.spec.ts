@@ -57,3 +57,13 @@ test('capture a section screen and the not-found screen', async ({ page }, testI
     await page.screenshot({ path: `${dir}/${testInfo.project.name}-${name}.jpg`, quality: 80 });
   }
 });
+
+test('capture the settings panel', async ({ page }, testInfo) => {
+  test.skip(!dir, 'set SCREENSHOTS_DIR to capture screenshots');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./');
+  await page.evaluate(() => document.fonts.ready);
+  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.screenshot({ path: `${dir}/${testInfo.project.name}-settings.jpg`, quality: 80 });
+});

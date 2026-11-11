@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { ObjectiveToast } from '../features/hud/ObjectiveToast';
+import { SettingsMenu } from '../features/hud/SettingsMenu';
 import { MainMenu } from '../features/menu/MainMenu';
 import { SITE_NAME, useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useMenuSelection } from './menuSelectionContext';
@@ -24,6 +26,9 @@ export function MenuScreen() {
         navigate(section.route, { state: { from: '/' }, viewTransition: true })
       }
       autoFocusSelected={returnPending}
-    />
+      railLeading={<SettingsMenu />}
+    >
+      <ObjectiveToast />
+    </MainMenu>
   );
 }

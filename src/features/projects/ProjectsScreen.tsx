@@ -3,6 +3,7 @@ import { useScreenMemory } from '../../app/screenMemory';
 import { resume } from '../../content/resume';
 import { TabBar } from '../hub/TabBar';
 import { panelDomId, tabDomId } from '../hub/tabIds';
+import { PROMPTS } from '../hud/prompts';
 import { TileGrid } from '../hub/TileGrid';
 import { ScreenLayout } from '../screens/ScreenLayout';
 import { sectionScreenProps } from '../screens/sectionMeta';
@@ -20,7 +21,11 @@ export function ProjectsScreen() {
   const visible = resume.projects.filter((p) => tab === 'all' || p.category === tab);
 
   return (
-    <ScreenLayout {...sectionScreenProps('projects')} focusTitle={!tiles.restoring}>
+    <ScreenLayout
+      prompts={[PROMPTS.tabs, PROMPTS.move, PROMPTS.open]}
+      {...sectionScreenProps('projects')}
+      focusTitle={!tiles.restoring}
+    >
       <TabBar
         label="Filter projects"
         tabs={tabs}

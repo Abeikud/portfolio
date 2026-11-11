@@ -9,4 +9,6 @@ installMatchMedia();
 afterEach(() => {
   cleanup();
   resetMediaQueries();
+  localStorage.clear();
+  delete document.documentElement.dataset.motion;
 });

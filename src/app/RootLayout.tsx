@@ -1,12 +1,17 @@
 import { Outlet } from 'react-router';
+import { TopHud } from '../features/hud/TopHud';
+import { PlayerProvider } from './PlayerProvider';
 import { ScreenMemoryProvider } from './ScreenMemoryProvider';
 
 export function RootLayout() {
   return (
-    <ScreenMemoryProvider>
-      <main className="app">
-        <Outlet />
-      </main>
-    </ScreenMemoryProvider>
+    <PlayerProvider>
+      <ScreenMemoryProvider>
+        <main className="app">
+          <Outlet />
+        </main>
+        <TopHud />
+      </ScreenMemoryProvider>
+    </PlayerProvider>
   );
 }

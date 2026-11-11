@@ -1,0 +1,85 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.4rem;
+}
+
+.back,
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.back:hover .key,
+.back:focus-visible .key {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.back:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.key {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.4rem;
+  height: 1.6rem;
+  padding: 0 0.45rem;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 999px;
+  background: var(--color-chip);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+/* Touch screens have no Esc key: show a back chevron instead of the key chip. */
+.chevron {
+  display: none;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+@media (pointer: coarse) {
+  .key {
+    display: none;
+  }
+
+  .chevron {
+    display: block;
+  }
+}
+
+.hint {
+  padding: 0;
+  color: var(--color-ink-soft);
+  cursor: default;
+}
+
+.hint .key + .key {
+  margin-left: -0.3rem;
+}
+
+@media (pointer: coarse) {
+  .hint {
+    display: none;
+  }
+}
