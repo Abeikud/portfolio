@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { sections } from '../../content/sections';
+import { renderInRouter as render } from '../../test/renderWithRouter';
 import { PreviewPanel } from './PreviewPanel';
 
 describe('PreviewPanel', () => {

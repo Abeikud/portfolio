@@ -9,6 +9,8 @@ import styles from './SceneBackground.module.css';
 export interface SceneBackgroundProps {
   order: readonly SectionId[];
   activeId: SectionId;
+  /** Darker shade for content screens. */
+  dim?: boolean;
 }
 
 /**

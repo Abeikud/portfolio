@@ -62,6 +62,14 @@ describe('SceneBackground', () => {
     expect(reduced.container.querySelector('[data-drift]')).toHaveAttribute('data-drift', 'false');
   });
 
+  it('can dim the scene further behind a content screen', () => {
+    const { container, rerender } = render(<SceneBackground order={order} activeId="about" />);
+    expect(container.querySelector('[data-dim]')).toHaveAttribute('data-dim', 'false');
+
+    rerender(<SceneBackground order={order} activeId="about" dim />);
+    expect(container.querySelector('[data-dim]')).toHaveAttribute('data-dim', 'true');
+  });
+
   it('credits the active photo with links to the source and the licence', () => {
     render(<SceneBackground order={order} activeId="skills" />);
     const credit = screen.getByText(/Photo:/).closest('p')!;

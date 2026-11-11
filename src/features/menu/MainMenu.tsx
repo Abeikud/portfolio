@@ -1,6 +1,6 @@
 import { useId, useReducer } from 'react';
 import { sections as defaultSections } from '../../content/sections';
-import type { Section } from '../../content/types';
+import type { Section, SectionId } from '../../content/types';
 import { IconRail } from '../hud/IconRail';
 import { SceneBackground } from '../scene/SceneBackground';
 import { BrandMark } from './BrandMark';
@@ -13,6 +13,11 @@ import styles from './MainMenu.module.css';
 export interface MainMenuProps {
   sections?: Section[];
   onActivate?: (section: Section) => void;
+  /** Section selected on mount (restores the selection after a screen). */
+  initialSelectedId?: SectionId;
+  onSelectionChange?: (section: Section) => void;
+  /** Focus the selected item on mount, e.g. when returning from a screen. */
+  autoFocusSelected?: boolean;
 }
 
 /** The home screen: stadium scene, brand, icon rail, section menu and preview. */
