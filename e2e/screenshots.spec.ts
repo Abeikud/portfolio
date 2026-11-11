@@ -43,6 +43,9 @@ test('capture a section screen and the not-found screen', async ({ page }, testI
   ] as const) {
     await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
+    await page
+      .locator('[data-active="true"] img')
+      .evaluate((img: HTMLImageElement) => img.decode());
     await page.screenshot({ path: `${dir}/${testInfo.project.name}-${name}.jpg`, quality: 80 });
   }
 });
