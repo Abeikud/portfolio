@@ -13,10 +13,10 @@ React · TypeScript · Vite · React Router · Vitest + Testing Library · Playw
 
 ## Scripts
 
-| Command            | What it does                                     |
-| ------------------ | ------------------------------------------------ |
-| `npm run dev`      | Start the dev server                             |
-| `npm test`         | Unit + component tests (Vitest)                  |
-| `npm run test:e2e` | End-to-end tests (Playwright, production build)  |
-| `npm run check`    | Typecheck, lint, unit tests with coverage, e2e   |
-| `npm run build`    | Production build to `dist/`                      |
+| Command            | What it does                                    |
+| ------------------ | ----------------------------------------------- |
+| `npm run dev`      | Start the dev server                            |
+| `npm test`         | Unit + component tests (Vitest)                 |
+| `npm run test:e2e` | End-to-end tests (Playwright, production build) |
+| `npm run check`    | Typecheck, lint, unit tests with coverage, e2e  |
+| `npm run build`    | Production build to `dist/`                     |
