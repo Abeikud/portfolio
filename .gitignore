@@ -1,6 +1,7 @@
 # deps & builds
 node_modules/
 dist/
+dist-root/
 coverage/
 
 # playwright

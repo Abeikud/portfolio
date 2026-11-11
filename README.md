@@ -88,6 +88,26 @@ keep the name, or change `resumePdf`.
 [`docs/CREDITS.md`](docs/CREDITS.md). `npm run scenes` regenerates the WebP
 versions.
 
+## Deploying
+
+The same code deploys to either host. [`config/deploy.ts`](config/deploy.ts) picks the
+base path and the site URL used by link previews from the build environment.
+
+| Host             | How                                                                                      | Served from   |
+| ---------------- | ---------------------------------------------------------------------------------------- | ------------- |
+| **GitHub Pages** | Automatic on every merge to `main` (`.github/workflows/deploy.yml`)                      | `/portfolio/` |
+| **Vercel**       | One-time: [vercel.com/new](https://vercel.com/new) → import `Abeikud/portfolio` → Deploy | `/`           |
+
+On Vercel there is nothing to configure. The Vite preset, the deep-link rewrite and
+asset caching all come from [`vercel.json`](vercel.json), Node 24 comes from
+`engines`, and canonical/Open Graph URLs point at the project's production domain.
+To use a custom domain, or to make one host the canonical address for both, set
+`SITE_URL` (for example `https://danieldampson.dev/`) in that host's environment
+variables. `BASE_PATH` overrides the served path.
+
+CI also builds and tests a copy served from `/` (the `root` Playwright project), so a
+Vercel-style deploy is checked on every PR.
+
 ## Scripts
 
 | Command               | What it does                                     |
