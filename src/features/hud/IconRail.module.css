@@ -1,0 +1,38 @@
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 50%;
+  background: var(--color-chip);
+  color: var(--color-ink);
+  backdrop-filter: blur(6px);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.link svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.link:hover {
+  background: var(--color-chip-hover);
+  transform: scale(1.08);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}

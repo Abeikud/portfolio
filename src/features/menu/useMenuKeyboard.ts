@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent } from 'react';
+import { useEffectEvent, useLayoutEffect } from 'react';
 import { keyToIntent, type MenuIntent } from './menuKeys';
 
 export interface UseMenuKeyboardOptions {
@@ -21,7 +21,9 @@ export function useMenuKeyboard(
     onIntent(intent);
   });
 
-  useEffect(() => {
+  // Layout effect: the listener is attached in the same commit that puts the
+  // menu on screen, so a visible menu always responds to keys (no race).
+  useLayoutEffect(() => {
     if (!enabled) return;
     const listener = (event: KeyboardEvent) => handleKeyDown(event);
     window.addEventListener('keydown', listener);
