@@ -19,7 +19,7 @@ test('arrow keys move the selection down the menu', async ({ page }) => {
   await expect(menu(page).getByRole('button', { name: 'EXPERIENCE' })).toBeFocused();
 });
 
-test('on a computer the mouse is ignored, and a click shows the keyboard controls', async ({
+test('on a computer the mouse is ignored and its pointer hidden, with no pop-up', async ({
   page,
   isMobile,
 }) => {
@@ -35,7 +35,15 @@ test('on a computer the mouse is ignored, and a click shows the keyboard control
     'true',
   );
   await expect(page).toHaveURL(/\/portfolio\/$/);
-  await expect(page.getByRole('status', { name: 'Keyboard controls' })).toBeVisible();
+  await expect(page.getByRole('status', { name: 'Keyboard controls' })).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).cursor)).toBe('none');
+});
+
+test('touch screens keep a normal pointer', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'touch only');
+  await expect
+    .poll(() => page.evaluate(() => getComputedStyle(document.body).cursor))
+    .not.toBe('none');
 });
 
 test('← reaches the icon rail and the settings', async ({ page }) => {

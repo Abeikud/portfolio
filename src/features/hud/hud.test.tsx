@@ -1,7 +1,8 @@
-import { act, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { sections } from '../../content/sections';
+import { setMediaQuery } from '../../test/matchMedia';
 import { renderApp } from '../../test/renderWithRouter';
 
 const hud = () => screen.getByRole('progressbar', { name: 'Sections explored' });
@@ -141,5 +142,16 @@ describe('Settings', () => {
 
     expect(screen.queryByRole('switch', { name: 'Reduce motion' })).toBeNull();
     expect(gear).toHaveFocus();
+  });
+});
+
+describe('Mouse on a computer', () => {
+  it('a click does nothing, not even a pop-up guide', () => {
+    setMediaQuery('(hover: hover) and (pointer: fine)', true);
+    renderApp('/');
+
+    fireEvent.pointerDown(window, { pointerType: 'mouse' });
+
+    expect(screen.queryByRole('status', { name: 'Keyboard controls' })).toBeNull();
   });
 });
