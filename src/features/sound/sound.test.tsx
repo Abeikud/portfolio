@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderApp } from '../../test/renderWithRouter';
@@ -91,10 +91,11 @@ describe('cues while playing', () => {
     expect(playedFrequencies()).toEqual([first('move')]);
 
     await user.keyboard('{Enter}');
-    expect(playedFrequencies().at(-1)).toBe(CUES.open.at(-1)!.from);
+    await waitFor(() => expect(playedFrequencies().at(-1)).toBe(CUES.open.at(-1)!.from));
 
+    // Back pops history, which the router finishes asynchronously.
     await user.keyboard('{Escape}');
-    expect(playedFrequencies().at(-1)).toBe(first('back'));
+    await waitFor(() => expect(playedFrequencies().at(-1)).toBe(first('back')));
   });
 
   it('tiles tick and tabs click', async () => {

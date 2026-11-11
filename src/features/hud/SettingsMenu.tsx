@@ -1,12 +1,13 @@
 import { Settings } from 'lucide-react';
 import { useEffect, useEffectEvent, useId, useRef, useState } from 'react';
 import { usePlayer } from '../../app/playerContext';
+import { playCue, setSoundEnabled } from '../sound/uiSound';
 import { RAIL_ITEM } from './railItem';
 import styles from './SettingsMenu.module.css';
 
 /** The gear at the top of the icon rail, with a small settings panel. */
 export function SettingsMenu() {
-  const { reduceMotion, setReduceMotion } = usePlayer();
+  const { reduceMotion, setReduceMotion, sound, setSound } = usePlayer();
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const gearRef = useRef<HTMLButtonElement>(null);
@@ -58,20 +59,46 @@ export function SettingsMenu() {
           <h2 id={titleId} className={styles.title}>
             Settings
           </h2>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={reduceMotion}
-            className={styles.switch}
-            onClick={() => setReduceMotion(!reduceMotion)}
-          >
-            <span>Reduce motion</span>
-            <span className={styles.track} aria-hidden="true">
-              <span className={styles.thumb} />
-            </span>
-          </button>
+          <Switch label="Reduce motion" on={reduceMotion} onChange={setReduceMotion} />
+          <Switch
+            label="Menu sounds"
+            on={sound}
+            onChange={(on) => {
+              setSound(on);
+              // Confirm with a blip; this press also lets the browser start audio.
+              if (on) {
+                setSoundEnabled(true);
+                playCue('open');
+              }
+            }}
+          />
         </div>
       )}
     </div>
+  );
+}
+
+function Switch({
+  label,
+  on,
+  onChange,
+}: {
+  label: string;
+  on: boolean;
+  onChange: (on: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      className={styles.switch}
+      onClick={() => onChange(!on)}
+    >
+      <span>{label}</span>
+      <span className={styles.track} aria-hidden="true">
+        <span className={styles.thumb} />
+      </span>
+    </button>
   );
 }

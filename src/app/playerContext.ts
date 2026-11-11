@@ -7,6 +7,9 @@ export interface Player {
   markVisited: (id: SectionId) => void;
   reduceMotion: boolean;
   setReduceMotion: (on: boolean) => void;
+  /** Menu sounds, off unless the visitor switches them on. */
+  sound: boolean;
+  setSound: (on: boolean) => void;
   isDismissed: (id: string) => boolean;
   dismiss: (id: string) => void;
 }

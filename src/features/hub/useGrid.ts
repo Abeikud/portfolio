@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, type RefObject } from 'react';
 import { gridKeyToIntent } from './gridKeys';
 import { moveInGrid } from './moveInGrid';
+import { playCue } from '../sound/uiSound';
 
 export interface UseGridOptions {
   /** The list whose links are the grid's items, in order. */
@@ -51,7 +52,9 @@ export function useGrid({
       return;
     }
     const next = moveInGrid(selected, intent, count, columns ?? measureColumns(listRef.current));
-    if (next !== selected) onSelect(next);
+    if (next === selected) return;
+    playCue('move');
+    onSelect(next);
   });
 
   useLayoutEffect(() => {

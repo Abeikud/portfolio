@@ -218,6 +218,38 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
 
 ---
 
+# v1.1 extras (milestone "v1.1 extras")
+
+Picked after launch: controller support, optional menu sounds and the Three.js layer
+(Phase 10). One PR each, built test-first like v1. **None are merged until Daniel says so.**
+
+## Phase 13: Optional menu sounds (#31)
+
+- **Build:**
+  - `features/sound/cues.ts` (pure): four cues as short oscillator tones:
+    - move: a soft tick
+    - open: two rising notes
+    - back: a falling slide
+    - tab: a short click
+  - `uiSound.ts`:
+    - Off by default, and nothing is created while off.
+    - The AudioContext is made on the first cue after switching on, which always follows a key press or tap.
+    - Clickless gain envelope; silent while the tab is hidden.
+  - "Menu sounds" switch in Settings, persisted in `dd:prefs`. Switching it on plays a confirmation blip.
+  - Wiring:
+    - `useNavigationCues` (RootLayout): "open" on a push, "back" on pop/replace, so keyboard, controller, touch and the browser's Back button are all covered.
+    - Menu selection: tick.
+    - Grid/contact-card moves: tick.
+    - Tab switches: click (not on mount).
+- **Tests first:**
+  - Cues: length ≤ 200 ms, gain ≤ 0.1, 200–2000 Hz, each distinct.
+  - Engine with a fake AudioContext: no context while off, plays once on, silent when hidden.
+  - Switch: off by default, toggles, remembered.
+  - Menu tick / open / back, tile tick and tab click; nothing (not even an engine) when off.
+  - e2e with a spy AudioContext: silent by default, cues after switching on by keyboard, survives a reload.
+
+---
+
 ## Inputs needed from you (placeholders are used until then)
 
 1. **Before Phase 0:** run `! gh auth login` so I can create the public `portfolio` repo and enable Pages.

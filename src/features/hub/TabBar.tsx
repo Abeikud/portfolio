@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, type KeyboardEvent } from 'react';
 import { isTextEntry } from '../menu/menuKeys';
+import { playCue } from '../sound/uiSound';
 import { panelDomId, tabDomId } from './tabIds';
 import styles from './TabBar.module.css';
 
@@ -48,6 +49,14 @@ export function TabBar({ label, tabs, active, onChange, idPrefix }: TabBarProps)
     window.addEventListener('keydown', listener);
     return () => window.removeEventListener('keydown', listener);
   }, []);
+
+  // A soft click on every tab switch (Q/E, arrows or a tap), not on mount.
+  const shownTab = useRef(active);
+  useEffect(() => {
+    if (shownTab.current === active) return;
+    shownTab.current = active;
+    playCue('tab');
+  }, [active]);
 
   // When a tab has focus, keep focus on the active tab as it changes.
   useEffect(() => {

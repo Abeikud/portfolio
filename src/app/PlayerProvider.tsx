@@ -1,11 +1,18 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { SectionId } from '../content/types';
 import { loadVisited, markVisited as addVisit, saveVisited } from '../features/hud/progress';
+import { setSoundEnabled } from '../features/sound/uiSound';
 import { readJson, writeJson } from '../lib/storage';
 import { PlayerContext, type Player } from './playerContext';
 
 const PREFS_KEY = 'dd:prefs';
 const DISMISSED_KEY = 'dd:dismissed';
+
+interface Prefs {
+  reduceMotion?: unknown;
+  sound?: unknown;
+}
+const loadPrefs = () => readJson<Prefs>(PREFS_KEY, {});
 
 function loadDismissed(): string[] {
   const raw = readJson<unknown>(DISMISSED_KEY, []);
@@ -14,15 +21,15 @@ function loadDismissed(): string[] {
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [visited, setVisited] = useState<readonly SectionId[]>(loadVisited);
-  const [reduceMotion, setReduceMotion] = useState(
-    () => readJson<{ reduceMotion?: unknown }>(PREFS_KEY, {}).reduceMotion === true,
-  );
+  const [reduceMotion, setReduceMotion] = useState(() => loadPrefs().reduceMotion === true);
+  const [sound, setSound] = useState(() => loadPrefs().sound === true);
   const [dismissed, setDismissed] = useState<readonly string[]>(loadDismissed);
 
   useEffect(() => saveVisited(visited), [visited]);
   useEffect(() => writeJson(DISMISSED_KEY, dismissed), [dismissed]);
+  useEffect(() => writeJson(PREFS_KEY, { reduceMotion, sound }), [reduceMotion, sound]);
+  useEffect(() => setSoundEnabled(sound), [sound]);
   useEffect(() => {
-    writeJson(PREFS_KEY, { reduceMotion });
     // A global switch the CSS can key off (see global.css).
     if (reduceMotion) document.documentElement.dataset.motion = 'reduced';
     else delete document.documentElement.dataset.motion;
@@ -40,10 +47,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       markVisited,
       reduceMotion,
       setReduceMotion,
+      sound,
+      setSound,
       isDismissed: (id) => dismissed.includes(id),
       dismiss,
     }),
-    [visited, markVisited, reduceMotion, dismissed, dismiss],
+    [visited, markVisited, reduceMotion, sound, dismissed, dismiss],
   );
 
   return <PlayerContext.Provider value={player}>{children}</PlayerContext.Provider>;
