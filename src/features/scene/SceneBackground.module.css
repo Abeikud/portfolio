@@ -64,6 +64,18 @@
     linear-gradient(180deg, rgb(var(--color-shade) / 0.5) 0%, transparent 22%);
 }
 
+/* Content screens: the photo becomes a mood backdrop behind real content. */
+.root[data-dim='true'] .shade {
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--color-shade) / 0.92) 0%,
+      rgb(var(--color-shade) / 0.78) 50%,
+      rgb(var(--color-shade) / 0.6) 100%
+    ),
+    linear-gradient(0deg, rgb(var(--color-shade) / 0.85) 0%, transparent 40%);
+}
+
 .credit {
   position: absolute;
   right: var(--gutter-x);

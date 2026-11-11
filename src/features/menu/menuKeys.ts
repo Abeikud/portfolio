@@ -26,6 +26,9 @@ const NATIVE_ACTIVATION = 'button, a[href], summary, [role="button"], [role="lin
 const matches = (target: EventTarget | null, selector: string) =>
   target instanceof Element && target.closest(selector) !== null;
 
+/** True when keys pressed on `target` are text input rather than navigation. */
+export const isTextEntry = (target: EventTarget | null) => matches(target, TEXT_ENTRY);
+
 /**
  * Translates a keydown into a menu intent, or null when the menu should leave
  * the key alone (OS/browser shortcuts, typing, or a focused control that will
@@ -33,7 +36,7 @@ const matches = (target: EventTarget | null, selector: string) =>
  */
 export function keyToIntent(event: MenuKeyEvent): MenuIntent | null {
   if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) return null;
-  if (matches(event.target, TEXT_ENTRY)) return null;
+  if (isTextEntry(event.target)) return null;
 
   const intent = KEY_INTENTS[event.key] ?? null;
   if (intent === 'activate' && (event.repeat || matches(event.target, NATIVE_ACTIVATION))) {

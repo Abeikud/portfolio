@@ -18,7 +18,7 @@ export interface SceneBackgroundProps {
  * active scene and its neighbours are loaded; once loaded a scene stays put so
  * moving back is instant.
  */
-export function SceneBackground({ order, activeId }: SceneBackgroundProps) {
+export function SceneBackground({ order, activeId, dim = false }: SceneBackgroundProps) {
   const reducedMotion = useReducedMotion();
   const [warm, setWarm] = useState<ReadonlySet<SectionId>>(
     () => new Set(scenesToWarm(order, activeId)),
@@ -34,7 +34,7 @@ export function SceneBackground({ order, activeId }: SceneBackgroundProps) {
   const credit = scenes[activeId];
 
   return (
-    <div className={styles.root} data-drift={!reducedMotion}>
+    <div className={styles.root} data-drift={!reducedMotion} data-dim={dim}>
       {order.map((id) => {
         const isActive = id === activeId;
         const image = warm.has(id) ? sceneImage(id) : undefined;
