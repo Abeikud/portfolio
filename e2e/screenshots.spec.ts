@@ -44,6 +44,9 @@ test('capture a section screen and the not-found screen', async ({ page }, testI
     ['screen-role-detail', 'experience/amobys-software-engineer-intern'],
     ['screen-education', 'education'],
     ['screen-certifications', 'certifications'],
+    ['screen-about', 'about'],
+    ['screen-skills', 'skills'],
+    ['screen-contact', 'contact'],
     ['screen-not-found', 'no-such-page'],
   ] as const) {
     await page.goto(path);

@@ -93,6 +93,8 @@ export interface Contact {
   email: string;
   linkedin: string;
   github: string;
+  /** Path of a downloadable resume under public/, once one is provided. */
+  resumePdf?: string;
 }
 
 export interface Profile {
