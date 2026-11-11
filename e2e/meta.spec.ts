@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const SITE = 'https://abeikud.github.io/portfolio/';
+const SITE = 'https://www.abeikud.com/';
 
 test('ships a description, social preview and icons', async ({ page, request }) => {
   await page.goto('./');
@@ -13,7 +13,8 @@ test('ships a description, social preview and icons', async ({ page, request }) 
   await expect(meta('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
   await expect(meta('link[rel="canonical"]')).toHaveAttribute('href', SITE);
 
-  expect((await request.get('og.jpg')).status()).toBe(200);
+  for (const asset of ['og.jpg', 'DDAMPSON_RESUME.pdf'])
+    expect((await request.get(asset)).status(), asset).toBe(200);
 });
 
 test('every icon the page declares loads and renders as the "D." monogram', async ({

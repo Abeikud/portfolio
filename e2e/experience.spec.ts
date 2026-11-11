@@ -10,7 +10,7 @@ test('keyboard: menu → Experience → a role → back', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'EXPERIENCE' })).toBeVisible();
 
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/portfolio\/experience\/gov-pei-summer-student$/);
+  await expect(page).toHaveURL(/:\d+\/experience\/gov-pei-summer-student$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Summer Student' })).toBeFocused();
 
   await page.keyboard.press('Escape');

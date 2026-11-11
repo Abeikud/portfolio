@@ -10,12 +10,12 @@ test('Enter opens a section and Escape comes back to the same item', async ({ pa
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await expect(page).toHaveURL(/\/portfolio\/projects$/);
+  await expect(page).toHaveURL(/:\d+\/projects$/);
   await expect(page.getByRole('heading', { level: 1, name: 'PROJECTS' })).toBeFocused();
 
   await page.keyboard.press('Escape');
 
-  await expect(page).toHaveURL(/\/portfolio\/$/);
+  await expect(page).toHaveURL(/:\d+\/$/);
   await expect(menuItem(page, 'PROJECTS')).toHaveAttribute('aria-current', 'true');
   await expect(menuItem(page, 'PROJECTS')).toBeFocused();
 });
@@ -47,7 +47,7 @@ test('on touch, the first tap selects and the second enters', async ({ page, isM
   await page.goto('./');
 
   await menuItem(page, 'SKILLS').tap();
-  await expect(page).toHaveURL(/\/portfolio\/$/);
+  await expect(page).toHaveURL(/:\d+\/$/);
   await menuItem(page, 'SKILLS').tap();
 
   await expect(page.getByRole('heading', { level: 1, name: 'SKILLS' })).toBeVisible();
