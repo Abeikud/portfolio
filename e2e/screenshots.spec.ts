@@ -40,6 +40,10 @@ test('capture a section screen and the not-found screen', async ({ page }, testI
   for (const [name, path] of [
     ['screen-projects', 'projects'],
     ['screen-project-detail', 'projects/startingfive'],
+    ['screen-experience', 'experience'],
+    ['screen-role-detail', 'experience/amobys-software-engineer-intern'],
+    ['screen-education', 'education'],
+    ['screen-certifications', 'certifications'],
     ['screen-not-found', 'no-such-page'],
   ] as const) {
     await page.goto(path);
