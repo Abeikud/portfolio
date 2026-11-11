@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolveDeploy } from './config/deploy';
 
-// GitHub Pages (/portfolio/) by default; the domain root on Vercel. See config/deploy.ts.
+// Served from the domain root (www.abeikud.com on Vercel). See config/deploy.ts.
 const { base, siteUrl } = resolveDeploy(process.env);
 
 export default defineConfig({

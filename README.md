@@ -1,6 +1,6 @@
 # Daniel Dampson | Portfolio
 
-**Live:** https://abeikud.github.io/portfolio/
+**Live:** https://www.abeikud.com
 
 ![The main menu](public/og.jpg)
 
@@ -33,8 +33,8 @@ operating system's reduced-motion setting.
 ## Built with
 
 React 19 · TypeScript · Vite · React Router · CSS Modules · Vitest + Testing Library ·
-Playwright (Chromium, plus WebKit on an iPhone profile) · axe-core · GitHub Actions →
-GitHub Pages
+Playwright (Chromium, plus WebKit on an iPhone profile) · axe-core · GitHub Actions ·
+Vercel
 
 ## How it was built
 
@@ -98,23 +98,24 @@ versions.
 
 ## Deploying
 
-The same code deploys to either host. [`config/deploy.ts`](config/deploy.ts) picks the
-base path and the site URL used by link previews from the build environment.
+The site is hosted on **Vercel** at **[www.abeikud.com](https://www.abeikud.com)**
+(`abeikud.com` redirects there).
 
-| Host             | How                                                                                      | Served from   |
-| ---------------- | ---------------------------------------------------------------------------------------- | ------------- |
-| **GitHub Pages** | Automatic on every merge to `main` (`.github/workflows/deploy.yml`)                      | `/portfolio/` |
-| **Vercel**       | One-time: [vercel.com/new](https://vercel.com/new) → import `Abeikud/portfolio` → Deploy | `/`           |
+- Every merge to `main` deploys to production automatically, and every PR gets its
+  own preview URL.
+- [`vercel.json`](vercel.json) sets the Vite build, the deep-link rewrite and asset
+  caching. Node 24 comes from `engines`.
+- [`config/deploy.ts`](config/deploy.ts) makes the canonical and Open Graph URLs
+  `https://www.abeikud.com/`. `SITE_URL` and `BASE_PATH` override them if needed.
 
-On Vercel there is nothing to configure. The Vite preset, the deep-link rewrite and
-asset caching all come from [`vercel.json`](vercel.json), Node 24 comes from
-`engines`, and canonical/Open Graph URLs point at the project's production domain.
-To use a custom domain, or to make one host the canonical address for both, set
-`SITE_URL` (for example `https://danieldampson.dev/`) in that host's environment
-variables. `BASE_PATH` overrides the served path.
+**The old address** `abeikud.github.io/portfolio` no longer hosts a copy. GitHub
+Pages serves [`pages-redirect/index.html`](pages-redirect/index.html) (built by
+`.github/workflows/deploy.yml`), which forwards every old link to the same page on
+www.abeikud.com. For example, `/portfolio/projects/startingfive` goes to
+`/projects/startingfive`.
 
-CI also builds and tests a copy served from `/` (the `root` Playwright project), so a
-Vercel-style deploy is checked on every PR.
+CI tests the app served from `/`, and the `pages` Playwright project checks the
+redirect.
 
 ## Scripts
 
