@@ -32,3 +32,20 @@ test('capture the main menu', async ({ page }, testInfo) => {
     });
   }
 });
+
+test('capture a section screen and the not-found screen', async ({ page }, testInfo) => {
+  test.skip(!dir, 'set SCREENSHOTS_DIR to capture screenshots');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const [name, path] of [
+    ['screen-projects', 'projects'],
+    ['screen-not-found', 'no-such-page'],
+  ] as const) {
+    await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
+    await page
+      .locator('[data-active="true"] img')
+      .evaluate((img: HTMLImageElement) => img.decode());
+    await page.screenshot({ path: `${dir}/${testInfo.project.name}-${name}.jpg`, quality: 80 });
+  }
+});

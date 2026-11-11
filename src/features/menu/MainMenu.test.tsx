@@ -1,7 +1,8 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { sections } from '../../content/sections';
+import { renderInRouter as render } from '../../test/renderWithRouter';
 import { MainMenu } from './MainMenu';
 
 const menu = () => screen.getByRole('navigation', { name: 'Main menu' });
@@ -169,6 +170,31 @@ describe('MainMenu', () => {
     expect(container.querySelector<HTMLElement>('[data-active="true"]')?.dataset.scene).toBe(
       'experience',
     );
+  });
+
+  it('can start on a given section (restoring the selection)', () => {
+    render(<MainMenu initialSelectedId="skills" />);
+    expect(current()).toEqual([item('SKILLS')]);
+  });
+
+  it('reports every selection change', async () => {
+    const user = userEvent.setup();
+    const onSelectionChange = vi.fn();
+    render(<MainMenu onSelectionChange={onSelectionChange} />);
+
+    await user.keyboard('{ArrowDown}');
+
+    expect(onSelectionChange).toHaveBeenLastCalledWith(section('projects'));
+  });
+
+  it('focuses the selected item on mount when returning from a screen', () => {
+    render(<MainMenu initialSelectedId="education" autoFocusSelected />);
+    expect(item('EDUCATION')).toHaveFocus();
+  });
+
+  it('leaves focus alone on a normal first load', () => {
+    render(<MainMenu />);
+    expect(document.body).toHaveFocus();
   });
 
   it('renders the icon rail', () => {

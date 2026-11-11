@@ -1,4 +1,4 @@
-import { useEffect, useRef, type MouseEvent, type PointerEvent } from 'react';
+import { useEffect, useEffectEvent, useRef, type MouseEvent, type PointerEvent } from 'react';
 import styles from './MenuList.module.css';
 
 export interface MenuListItem {
@@ -13,15 +13,30 @@ export interface MenuListProps {
   onActivate: (index: number) => void;
   /** Id of an element describing the selected item (the preview blurb). */
   describedBy?: string;
+  /** Focus the selected item on mount (e.g. when returning from a screen). */
+  focusOnMount?: boolean;
 }
 
 /**
  * The big vertical menu. Selection is visual (size + brightness, fading with
  * distance) and mirrored by aria-current and a roving tabindex.
  */
-export function MenuList({ items, selected, onSelect, onActivate, describedBy }: MenuListProps) {
+export function MenuList({
+  items,
+  selected,
+  onSelect,
+  onActivate,
+  describedBy,
+  focusOnMount = false,
+}: MenuListProps) {
   const listRef = useRef<HTMLUListElement>(null);
   const lastSelected = useRef(selected);
+
+  const focusSelectedOnMount = useEffectEvent(() => {
+    if (focusOnMount)
+      listRef.current?.querySelectorAll('button')[selected]?.focus({ preventScroll: true });
+  });
+  useEffect(() => focusSelectedOnMount(), []);
 
   // Focus follows the selection, but never steals focus from elsewhere on the
   // page (e.g. an icon-rail link) and never on first render.
