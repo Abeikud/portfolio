@@ -12,8 +12,8 @@ on those screens open further detail.
 ## Controls
 
 On a **computer, the site is played with the keyboard**, like a console. The mouse is
-ignored: clicking brings up a reminder of the controls, and the wheel still scrolls
-long pages. **Phones and tablets** use taps instead: tap once to select, and again to
+ignored and its pointer is hidden; the wheel still scrolls long pages. The key hints
+along the bottom of each screen show the controls. **Phones and tablets** use taps instead: tap once to select, and again to
 open.
 
 |                  | Keys                                                                     |
