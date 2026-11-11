@@ -1,0 +1,71 @@
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  max-width: 52rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--color-chip-border);
+  border-radius: 1rem;
+  background: rgb(10 16 32 / 0.62);
+  backdrop-filter: blur(10px);
+}
+
+.crest {
+  width: clamp(3rem, 2.4rem + 2vw, 4.5rem);
+  height: auto;
+  color: var(--color-accent);
+  transform: skewX(-8deg);
+}
+
+.school {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.degree {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.minor {
+  margin: 0.2rem 0 0;
+  color: var(--color-ink-soft);
+}
+
+.label {
+  margin: 1.6rem 0 0.7rem;
+  color: var(--color-ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.courses li {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 999px;
+  background: var(--color-chip);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 30rem) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -62,6 +62,14 @@
   text-transform: uppercase;
 }
 
+.intro {
+  max-width: 42rem;
+  margin: 1rem 0 0;
+  color: var(--color-ink-soft);
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+  line-height: 1.5;
+}
+
 /* Focus is moved here programmatically on arrival; no ring needed. */
 .title:focus {
   outline: none;
