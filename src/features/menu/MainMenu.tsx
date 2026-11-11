@@ -6,6 +6,7 @@ import { RAIL_ITEM } from '../hud/railItem';
 import { KeyPrompts } from '../hud/KeyPrompts';
 import { PROMPTS } from '../hud/prompts';
 import { SceneBackground } from '../scene/SceneBackground';
+import { playCue } from '../sound/uiSound';
 import { BrandMark } from './BrandMark';
 import { createMenuState, menuReducer } from './menuReducer';
 import { MenuList } from './MenuList';
@@ -60,6 +61,7 @@ export function MainMenu({
   useEffect(() => {
     if (lastReported.current === state.selected) return;
     lastReported.current = state.selected;
+    playCue('move');
     reportSelection(state.selected);
   }, [state.selected]);
 

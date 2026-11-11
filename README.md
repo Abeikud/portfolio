@@ -28,7 +28,11 @@ open.
 Back always returns you to the item you came from. An **EXPLORED n/7** bar tracks
 the sections you've visited, and visiting all seven completes the season objective.
 **Settings** (the gear) has a Reduce motion switch, and the site also respects the
-operating system's reduced-motion setting.
+operating system's reduced-motion setting. It also has **Menu sounds**, which is off by
+default. Switched on, it plays soft console-style cues: a tick as you move, a rising
+blip as you open something, a falling one as you go back, and a click on tab
+switches. The sounds are synthesised in the browser with Web Audio, so there are no
+audio files.
 
 ## Built with
 
@@ -54,7 +58,8 @@ first, then the code that makes them pass.
 | 7     | Experience, Education, Certifications            | [#20](https://github.com/Abeikud/portfolio/pull/20) |
 | 8     | About, Skills, Contact                           | [#21](https://github.com/Abeikud/portfolio/pull/21) |
 | 9     | HUD and polish                                   | [#22](https://github.com/Abeikud/portfolio/pull/22) |
-| 11    | Accessibility, layout, metadata, budgets, launch | (this phase)                                        |
+| 11    | Accessibility, layout, metadata, budgets, launch | [#23](https://github.com/Abeikud/portfolio/pull/23) |
+| 13    | Optional menu sounds                             | (this phase)                                        |
 
 The optional Phase 10 (a Three.js scene layer) was left out of v1. See
 [#11](https://github.com/Abeikud/portfolio/issues/11).
