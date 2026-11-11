@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, type KeyboardEvent } from 'react';
+import { useInputMode } from '../../app/inputMode';
 import { isTextEntry } from '../menu/menuKeys';
 import { panelDomId, tabDomId } from './tabIds';
 import styles from './TabBar.module.css';
@@ -22,6 +23,7 @@ export interface TabBarProps {
  * ← / → work when a tab has focus (the standard ARIA tabs pattern).
  */
 export function TabBar({ label, tabs, active, onChange, idPrefix }: TabBarProps) {
+  const pad = useInputMode() === 'pad';
   const listRef = useRef<HTMLDivElement>(null);
   const activeIndex = Math.max(
     0,
@@ -79,7 +81,7 @@ export function TabBar({ label, tabs, active, onChange, idPrefix }: TabBarProps)
   return (
     <div className={styles.bar}>
       <kbd className={styles.shoulder} aria-hidden="true">
-        Q
+        {pad ? 'LB' : 'Q'}
       </kbd>
       <div ref={listRef} role="tablist" aria-label={label} className={styles.tabs}>
         {tabs.map((tab) => {
@@ -103,7 +105,7 @@ export function TabBar({ label, tabs, active, onChange, idPrefix }: TabBarProps)
         })}
       </div>
       <kbd className={styles.shoulder} aria-hidden="true">
-        E
+        {pad ? 'RB' : 'E'}
       </kbd>
     </div>
   );

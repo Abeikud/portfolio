@@ -80,7 +80,9 @@ test('the whole site can be played with a controller', async ({ page }) => {
   await expect(firstTab).toHaveAttribute('aria-selected', 'true');
   await press(page, 'rb');
   await expect(firstTab).toHaveAttribute('aria-selected', 'false');
-  await expect(controls.getByRole('button', { name: /back/i })).toContainText('B');
+  await expect(
+    controls.getByRole('button', { name: /back/i }).getByText('B', { exact: true }),
+  ).toBeVisible();
 
   // Move along the tiles, open one, and back out.
   await press(page, 'right');

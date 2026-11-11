@@ -93,8 +93,9 @@ describe('padToKeys', () => {
 
   it('repeats a held direction after a delay, then steadily', () => {
     const held = state({ down: true });
-    let { tracker, presses } = padToKeys(startTracker(), held, 0);
-    expect(presses).toHaveLength(1);
+    const first = padToKeys(startTracker(), held, 0);
+    expect(first.presses).toHaveLength(1);
+    let tracker = first.tracker;
 
     const at = (now: number) => {
       const result = padToKeys(tracker, held, now);

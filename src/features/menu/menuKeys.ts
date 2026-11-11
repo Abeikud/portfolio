@@ -24,7 +24,7 @@ const KEY_INTENTS: Record<string, MenuIntent> = {
 /** Fields where keys are text input, not navigation. */
 const TEXT_ENTRY = 'input, textarea, select, [contenteditable]:not([contenteditable="false"])';
 /** Elements that already turn Enter/Space into a click on their own. */
-const NATIVE_ACTIVATION = 'button, a[href], summary, [role="button"], [role="link"]';
+export const NATIVE_ACTIVATION = 'button, a[href], summary, [role="button"], [role="link"]';
 
 const matches = (target: EventTarget | null, selector: string) =>
   target instanceof Element && target.closest(selector) !== null;

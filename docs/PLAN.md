@@ -218,6 +218,37 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
 
 ---
 
+# v1.1 extras (milestone "v1.1 extras")
+
+Picked after launch: controller support, optional menu sounds and the Three.js layer
+(Phase 10). One PR each, built test-first like v1. **None are merged until Daniel says so.**
+
+## Phase 12: Controller (gamepad) support (#30)
+
+- **Build:**
+  - `features/gamepad/padKeys.ts` (pure):
+    - Reads standard-mapping pads: A, B, LB, RB, the D-pad, and the left stick with a 0.5 deadzone (the stronger axis wins).
+    - `padToKeys(prev, next, now)` returns the key presses to fire: on press edges, with held directions repeating after 400 ms, then every 110 ms.
+  - `useGamepadBridge` (in `RootLayout`):
+    - Polls `navigator.getGamepads()` only while a pad is connected.
+    - Dispatches each press as a synthetic `keydown` on the focused element, so the existing handlers (menu, tile grid, tabs, back, icon rail, settings) work unchanged.
+    - An unhandled A on a button or link clicks it, like Enter.
+    - A blocked new-tab link opens in the same tab.
+    - Buttons held when the pad connects (the wake-up press) don't fire.
+  - `app/inputMode.ts`: `'keys' | 'pad'`. The prompts and the tab shoulder hints show A / B / LB RB in pad mode, and switch back on a real keypress.
+  - A "Controller connected" chip in the top HUD (hidden on phones).
+- **Tests first:**
+  - `padKeys` table tests: mapping, deadzone, stronger axis, short arrays, merging pads, press edges, repeat timing.
+  - Bridge with a fake `getGamepads` and fake rAF:
+    - Keys reach window and focused-element listeners.
+    - A clicks a button only when nothing handled Enter.
+    - Polling stops when unplugged; input mode flips both ways.
+    - `openLink` falls back to the same tab.
+  - The app renders controller prompts, the shoulder hints and the status chip.
+  - e2e (fake controller via an init script): menu → Projects → RB tab → tile → B → B → ← into the rail → A opens Settings → B closes it → a key brings back keyboard prompts.
+
+---
+
 ## Inputs needed from you (placeholders are used until then)
 
 1. **Before Phase 0:** run `! gh auth login` so I can create the public `portfolio` repo and enable Pages.

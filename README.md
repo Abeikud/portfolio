@@ -11,19 +11,26 @@ on those screens open further detail.
 
 ## Controls
 
-On a **computer, the site is played with the keyboard**, like a console. The mouse is
-ignored and its pointer is hidden; the wheel still scrolls long pages. The key hints
-along the bottom of each screen show the controls. **Phones and tablets** use taps instead: tap once to select, and again to
+On a **computer, the site is played with the keyboard or a game controller**, like a
+console. The mouse is ignored and its pointer is hidden; the wheel still scrolls long
+pages. The hints along the bottom of each screen show the controls, and switch to
+controller buttons once you use a controller. **Phones and tablets** use taps instead: tap once to select, and again to
 open.
 
-|                  | Keys                                                                     |
-| ---------------- | ------------------------------------------------------------------------ |
-| Move             | ↑ ↓ in the menu; arrows or WASD on tiles                                 |
-| Open / select    | Enter                                                                    |
-| Back             | Esc or Backspace                                                         |
-| Switch tabs      | Q / E (like LB / RB)                                                     |
-| Links & settings | ← from the menu into the icon rail; ↑ ↓ inside it; → or Esc to return    |
-| Everything else  | Tab reaches every link, such as news items, contact cards and the resume |
+|                  | Keyboard                                                                 | Controller                           |
+| ---------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| Move             | ↑ ↓ in the menu; arrows or WASD on tiles                                 | D-pad or left stick (hold to repeat) |
+| Open / select    | Enter                                                                    | A                                    |
+| Back             | Esc or Backspace                                                         | B                                    |
+| Switch tabs      | Q / E                                                                    | LB / RB                              |
+| Links & settings | ← from the menu into the icon rail; ↑ ↓ inside it; → or Esc to return    | Same with the D-pad; B to return     |
+| Everything else  | Tab reaches every link, such as news items, contact cards and the resume |                                      |
+
+Any controller the browser recognises works (Xbox, PlayStation, Switch Pro and most
+others), after its first button press. A chip in the top corner shows when one is
+connected. Links that open a new tab (GitHub, LinkedIn, the resume) open in the same
+tab if the browser blocks the new one, because browsers don't count a controller
+press as a click.
 
 Back always returns you to the item you came from. An **EXPLORED n/7** bar tracks
 the sections you've visited, and visiting all seven completes the season objective.
@@ -54,7 +61,8 @@ first, then the code that makes them pass.
 | 7     | Experience, Education, Certifications            | [#20](https://github.com/Abeikud/portfolio/pull/20) |
 | 8     | About, Skills, Contact                           | [#21](https://github.com/Abeikud/portfolio/pull/21) |
 | 9     | HUD and polish                                   | [#22](https://github.com/Abeikud/portfolio/pull/22) |
-| 11    | Accessibility, layout, metadata, budgets, launch | (this phase)                                        |
+| 11    | Accessibility, layout, metadata, budgets, launch | [#23](https://github.com/Abeikud/portfolio/pull/23) |
+| 12    | Controller (gamepad) support                     | (this phase)                                        |
 
 The optional Phase 10 (a Three.js scene layer) was left out of v1. See
 [#11](https://github.com/Abeikud/portfolio/issues/11).

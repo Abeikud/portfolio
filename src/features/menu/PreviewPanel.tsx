@@ -1,6 +1,7 @@
 import { CornerDownLeft } from 'lucide-react';
 import { useId } from 'react';
 import { Link } from 'react-router';
+import { useInputMode } from '../../app/inputMode';
 import type { Section } from '../../content/types';
 import { sectionIcons } from './sectionIcons';
 import styles from './PreviewPanel.module.css';
@@ -16,6 +17,7 @@ export function PreviewPanel({ section, blurbId }: PreviewPanelProps) {
   const headingId = useId();
   const { kicker, headline, blurb, highlights, ctaLabel } = section.preview;
   const Icon = sectionIcons[section.id];
+  const pad = useInputMode() === 'pad';
 
   return (
     // Keyed by section so the entrance animation replays on every change.
@@ -31,7 +33,7 @@ export function PreviewPanel({ section, blurbId }: PreviewPanelProps) {
       <p className={styles.highlights}>{highlights.join(' · ')}</p>
       <Link className={styles.cta} to={section.route} state={{ from: '/' }} viewTransition>
         <span className={styles.key} aria-hidden="true">
-          <CornerDownLeft strokeWidth={2.5} />
+          {pad ? 'A' : <CornerDownLeft strokeWidth={2.5} />}
         </span>
         {ctaLabel}
       </Link>

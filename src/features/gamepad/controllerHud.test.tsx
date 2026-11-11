@@ -22,11 +22,20 @@ describe('prompts follow the controller', () => {
     expect(controls().queryByText('⏎')).toBeNull();
   });
 
+  it('the preview button shows A instead of the Enter key', async () => {
+    renderApp('/');
+    const cta = screen.getByRole('link', { name: /enter about/i });
+    expect(within(cta).queryByText('A')).toBeNull();
+    await usePad();
+    expect(within(cta).getByText('A')).toBeInTheDocument();
+  });
+
   it('screens show B for Back and the shoulder buttons for tabs', async () => {
     renderApp('/projects');
     await usePad();
 
-    expect(controls().getByRole('button', { name: /back/i })).toHaveTextContent('B');
+    const back = within(controls().getByRole('button', { name: /back/i }));
+    expect(back.getByText('B')).toBeInTheDocument();
     expect(controls().getByText('LB')).toBeInTheDocument();
     expect(controls().getByText('RB')).toBeInTheDocument();
     expect(screen.getAllByText('LB')).toHaveLength(2); // the tab bar's shoulder hints too
@@ -36,7 +45,8 @@ describe('prompts follow the controller', () => {
     renderApp('/projects');
     await usePad();
     await act(() => setInputMode('keys'));
-    expect(controls().getByRole('button', { name: /back/i })).toHaveTextContent('Esc');
+    const back = within(controls().getByRole('button', { name: /back/i }));
+    expect(back.getByText('Esc')).toBeInTheDocument();
     expect(controls().getByText('Q')).toBeInTheDocument();
   });
 });
