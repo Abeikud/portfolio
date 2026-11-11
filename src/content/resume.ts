@@ -173,5 +173,6 @@ export const resume: Resume = {
     email: 'abeikudampson@gmail.com',
     linkedin: 'https://www.linkedin.com/in/daniel-dampson-146a95241/',
     github: 'https://github.com/Abeikud',
+    resumePdf: 'DDAMPSON_RESUME.pdf',
   },
 };
