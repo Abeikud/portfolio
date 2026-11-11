@@ -66,7 +66,7 @@ export function MainMenu({
 
   useMenuKeyboard((intent) => {
     if (intent === 'activate') activate(state.selected);
-    else dispatch({ type: intent });
+    else if (intent !== 'rail') dispatch({ type: intent });
   });
 
   return (

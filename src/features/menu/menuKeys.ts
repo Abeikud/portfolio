@@ -1,9 +1,9 @@
-export type MenuIntent = 'next' | 'prev' | 'first' | 'last' | 'activate';
+export type MenuIntent = 'next' | 'prev' | 'first' | 'last' | 'activate' | 'rail';
 
 export type MenuKeyEvent = Pick<
   KeyboardEvent,
   'key' | 'altKey' | 'ctrlKey' | 'metaKey' | 'repeat' | 'isComposing' | 'target'
->;
+> & { defaultPrevented?: boolean };
 
 const KEY_INTENTS: Record<string, MenuIntent> = {
   ArrowDown: 'next',

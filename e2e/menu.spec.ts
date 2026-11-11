@@ -19,15 +19,32 @@ test('arrow keys move the selection down the menu', async ({ page }) => {
   await expect(menu(page).getByRole('button', { name: 'EXPERIENCE' })).toBeFocused();
 });
 
-test('hovering an item selects it', async ({ page, isMobile }) => {
-  test.skip(isMobile, 'no hover on touch devices');
+test('on a computer the mouse is ignored, and a click shows the keyboard controls', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'touch devices still tap');
+  const contact = menu(page).getByRole('button', { name: 'CONTACT' });
+  const box = (await contact.boundingBox())!;
 
-  await menu(page).getByRole('button', { name: 'CONTACT' }).hover();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
 
-  await expect(menu(page).getByRole('button', { name: 'CONTACT' })).toHaveAttribute(
+  await expect(menu(page).getByRole('button', { name: 'ABOUT' })).toHaveAttribute(
     'aria-current',
     'true',
   );
+  await expect(page).toHaveURL(/\/portfolio\/$/);
+  await expect(page.getByRole('status', { name: 'Keyboard controls' })).toBeVisible();
+});
+
+test('← reaches the icon rail and the settings', async ({ page }) => {
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByRole('button', { name: 'Settings' })).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.getByRole('link', { name: 'GitHub' })).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(menu(page).getByRole('button', { name: 'ABOUT' })).toBeFocused();
 });
 
 test('tapping an item selects it', async ({ page, isMobile }) => {
@@ -67,7 +84,9 @@ test('the active scene photo actually loads', async ({ page }) => {
 
 test('the preview’s Enter pill is never covered (e.g. by the objective toast)', async ({
   page,
+  isMobile,
 }) => {
+  test.skip(!isMobile, 'a tap target check; computers ignore the mouse');
   for (const label of ['ABOUT', 'PROJECTS', 'CONTACT']) {
     await page
       .getByRole('navigation', { name: 'Main menu' })

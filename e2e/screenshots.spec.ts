@@ -64,6 +64,7 @@ test('capture the settings panel', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('./');
   await page.evaluate(() => document.fonts.ready);
-  await page.getByRole('button', { name: 'Settings' }).click();
+  await page.keyboard.press('ArrowLeft');
+  await page.keyboard.press('Enter');
   await page.screenshot({ path: `${dir}/${testInfo.project.name}-settings.jpg`, quality: 80 });
 });
