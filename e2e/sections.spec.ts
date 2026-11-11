@@ -41,6 +41,32 @@ test('the resume opens as a PDF in a new tab', async ({ page, request }) => {
   expect(res.headers()['content-type']).toContain('application/pdf');
 });
 
+test('Contact cards: arrow keys move, Enter opens the resume in a new tab', async ({
+  page,
+  context,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'keyboard');
+  await page.goto('contact');
+  const cards = page.getByRole('list', { name: 'Ways to reach me' });
+  await expect(cards).toBeVisible();
+
+  await page.keyboard.press('ArrowRight');
+  await expect(cards.getByRole('link', { name: /LinkedIn/ })).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await expect(cards.getByRole('link', { name: /Resume/ })).toBeFocused();
+
+  // Headless Chromium has no PDF viewer, so assert on the new tab's request.
+  const [newTab, pdf] = await Promise.all([
+    context.waitForEvent('page'),
+    context.waitForEvent('request', (r) => /DDAMPSON_RESUME\.pdf$/.test(r.url())),
+    page.keyboard.press('Enter'),
+  ]);
+  expect(pdf.frame().page()).toBe(newTab);
+  await expect(page).toHaveURL(/\/portfolio\/contact$/);
+});
+
 test('Contact links are real', async ({ page }) => {
   await page.goto('contact');
   await expect(page.getByRole('link', { name: /Email/ })).toHaveAttribute('href', /^mailto:/);

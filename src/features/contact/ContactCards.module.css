@@ -1,6 +1,7 @@
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  /* Narrow enough that all four cards share one row on a computer (← → reach all). */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
   gap: clamp(0.75rem, 1.5vw, 1.1rem);
   max-width: 62rem;
   margin: 0;
@@ -28,16 +29,24 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.card:hover,
-.card:focus-visible {
+/* The selected card lifts and glows, like a highlighted hub tile. */
+[data-selected='true'] > .card {
   border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 1px var(--color-accent),
+    0 14px 32px rgb(0 0 0 / 0.4),
+    0 0 30px rgb(60 242 166 / 0.16);
   color: var(--color-ink);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+}
+
+.card:focus {
+  outline: none;
 }
 
 .card:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
 }
 
 .icon {
@@ -66,9 +75,9 @@
 
 .value {
   grid-area: value;
-  overflow: hidden;
+  min-width: 0;
   color: var(--color-ink-soft);
-  font-size: 0.88rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 0.85rem;
+  /* Wrap long addresses rather than cutting them off: people need to read them. */
+  overflow-wrap: anywhere;
 }
