@@ -7,6 +7,9 @@ export interface Player {
   markVisited: (id: SectionId) => void;
   reduceMotion: boolean;
   setReduceMotion: (on: boolean) => void;
+  /** The 3D layer over the menu photo (on unless switched off). */
+  effects3d: boolean;
+  setEffects3d: (on: boolean) => void;
   isDismissed: (id: string) => boolean;
   dismiss: (id: string) => void;
 }

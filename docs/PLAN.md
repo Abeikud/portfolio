@@ -189,18 +189,44 @@ Libraries: react-router v7 (data router; `viewTransition` for animated screen ch
   - Prompts change per screen.
   - The motion toggle removes animation classes.
 
-## Phase 10 (optional, decided at the Phase 4 gate): Three.js scene layer
+## Phase 10: Three.js scene layer (built for v1.1, #11)
+
+Deferred at the v1 launch; built in v1.1. Plain `three` instead of R3F (smaller), and
+a selection-driven camera sway instead of mouse parallax (the mouse is ignored on
+desktop).
 
 - **Build:**
-  - A lazy-loaded R3F canvas over the photo: a procedural football that rolls and turns when the selection changes, floodlight dust particles, and slight mouse parallax.
-  - `shouldRender3D()` gates it. It renders only with WebGL available, reduced motion off, the setting on, no `saveData`, and a width ≥768.
+  - `scene3d/shouldRender3D.ts` (no three.js, so the main bundle can ask). The layer is on only with:
+    - WebGL on a GPU: software renderers such as SwiftShader, llvmpipe and Microsoft Basic Render are refused, as is `failIfMajorPerformanceCaveat`, because they can freeze the page for seconds
+    - motion allowed (OS and Settings)
+    - the **3D effects** setting on (default)
+    - no Save-Data
+    - a width of 768 px or more
+  - `scene3d/stadium.ts`:
+    - `ballTargetFor` gives each section its own spot on the pitch.
+    - `dustField` is a seeded layout of floodlight motes.
+    - `buildStadiumScene` builds:
+      - a procedural ball (an icosphere with vertex-coloured pentagon patches, no textures or logos)
+      - a soft blob shadow
+      - a shader-drawn dust cloud
+      - `step`: the ball rolls by the distance travelled, and the camera sways towards the selection
+  - `Scene3D.tsx`: its own lazy chunk (`React.lazy`) holding the renderer and loop.
+    - Pixel ratio capped at 1.5; low-power GPU.
+    - Async shader compile where supported.
+    - Removes itself on WebGL failure or context loss.
+    - Unmounts on content screens; requestAnimationFrame pauses in hidden tabs.
+  - Budgets: the 3D chunk must stay at or under 170 KB gzipped, and three.js may never appear in the entry script.
 - **Tests first:**
-  - Gating truth table.
-  - `ballTargetFor(i)` is a pure function.
-  - The R3F test renderer finds the ball mesh and the particle count.
-  - jsdom renders no canvas when gated.
-  - e2e: the canvas is present on desktop Chromium and absent with reduced motion emulated.
-  - The three chunk is not in the initial bundle.
+  - Gate truth table; software-renderer detection; context options.
+  - `ballTargetFor` and `dustField` properties.
+  - Scene contents in jsdom (ball, colours, dust count, `placeBall`, `dispose`).
+  - No canvas in jsdom.
+  - Setting: on by default, toggles, remembered.
+  - e2e:
+    - The canvas appears from its own chunk, leaves on screens and returns on the menu, with no console errors.
+    - None with reduced motion, on phones, or with the setting off (including after a reload).
+    - Without a GPU, three.js is never downloaded.
+    - CI has no GPU, so the 3D specs opt in to software WebGL with a test-only storage key.
 
 ## Phase 11: Responsive, accessibility, performance, launch
 

@@ -6,6 +6,7 @@ import { RAIL_ITEM } from '../hud/railItem';
 import { KeyPrompts } from '../hud/KeyPrompts';
 import { PROMPTS } from '../hud/prompts';
 import { SceneBackground } from '../scene/SceneBackground';
+import { Scene3DLayer } from '../scene3d/Scene3DLayer';
 import { BrandMark } from './BrandMark';
 import { createMenuState, menuReducer } from './menuReducer';
 import { MenuList } from './MenuList';
@@ -79,6 +80,7 @@ export function MainMenu({
   return (
     <div ref={stageRef} className={styles.stage}>
       {current && <SceneBackground order={sections.map((s) => s.id)} activeId={current.id} />}
+      <Scene3DLayer selected={state.selected} count={sections.length} />
       <header className={styles.top}>
         <BrandMark />
       </header>

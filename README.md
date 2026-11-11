@@ -30,11 +30,17 @@ the sections you've visited, and visiting all seven completes the season objecti
 **Settings** (the gear) has a Reduce motion switch, and the site also respects the
 operating system's reduced-motion setting.
 
+**3D layer:** on a computer with a GPU, a Three.js layer is drawn over the menu photo.
+Floodlight dust drifts in the light, and a football rolls to a new spot on the pitch
+each time you change section. It loads after the menu, in its own file (about 130 KB
+gzipped), and stays off on phones, with reduced motion, when the browser asks to save
+data, and on software-only WebGL. Settings → **3D effects** turns it off.
+
 ## Built with
 
 React 19 · TypeScript · Vite · React Router · CSS Modules · Vitest + Testing Library ·
-Playwright (Chromium, plus WebKit on an iPhone profile) · axe-core · GitHub Actions ·
-Vercel
+Three.js · Playwright (Chromium, plus WebKit on an iPhone profile) · axe-core · GitHub
+Actions · Vercel
 
 ## How it was built
 
@@ -54,10 +60,11 @@ first, then the code that makes them pass.
 | 7     | Experience, Education, Certifications            | [#20](https://github.com/Abeikud/portfolio/pull/20) |
 | 8     | About, Skills, Contact                           | [#21](https://github.com/Abeikud/portfolio/pull/21) |
 | 9     | HUD and polish                                   | [#22](https://github.com/Abeikud/portfolio/pull/22) |
-| 11    | Accessibility, layout, metadata, budgets, launch | (this phase)                                        |
+| 10    | Three.js stadium layer (v1.1)                    | (this phase)                                        |
+| 11    | Accessibility, layout, metadata, budgets, launch | [#23](https://github.com/Abeikud/portfolio/pull/23) |
 
-The optional Phase 10 (a Three.js scene layer) was left out of v1. See
-[#11](https://github.com/Abeikud/portfolio/issues/11).
+The optional Phase 10 (a Three.js scene layer) was left out of v1 and built for v1.1
+([#11](https://github.com/Abeikud/portfolio/issues/11)).
 
 ### What CI checks on every PR
 

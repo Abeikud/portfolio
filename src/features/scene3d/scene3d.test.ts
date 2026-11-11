@@ -1,7 +1,14 @@
 import { Mesh, Points } from 'three';
 import { describe, expect, it } from 'vitest';
 import { BALL_RADIUS, PITCH, ballTargetFor, buildStadiumScene, dustField } from './stadium';
-import { MIN_WIDTH, shouldRender3D, type RenderConditions } from './shouldRender3D';
+import {
+  ALLOW_SOFTWARE_KEY,
+  MIN_WIDTH,
+  contextOptions,
+  isSoftwareRenderer,
+  shouldRender3D,
+  type RenderConditions,
+} from './shouldRender3D';
 
 describe('shouldRender3D', () => {
   const ok: RenderConditions = {
@@ -25,6 +32,30 @@ describe('shouldRender3D', () => {
     ['a phone-sized screen', { wide: false }],
   ] as const)('stays off with %s', (_, patch) => {
     expect(shouldRender3D({ ...ok, ...patch })).toBe(false);
+  });
+});
+
+describe('software rendering', () => {
+  it('recognises WebGL drawn on the CPU instead of a GPU', () => {
+    for (const name of [
+      'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)',
+      'llvmpipe (LLVM 15.0.7, 256 bits)',
+      'Microsoft Basic Render Driver',
+    ])
+      expect(isSoftwareRenderer(name), name).toBe(true);
+    for (const name of [
+      'ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)',
+      'NVIDIA GeForce RTX 3060/PCIe/SSE2',
+      'Adreno (TM) 740',
+    ])
+      expect(isSoftwareRenderer(name), name).toBe(false);
+  });
+
+  it('asks the browser to refuse slow WebGL, unless tests opt in', () => {
+    expect(contextOptions()).toEqual({ failIfMajorPerformanceCaveat: true });
+    localStorage.setItem(ALLOW_SOFTWARE_KEY, '1');
+    expect(contextOptions()).toEqual({ failIfMajorPerformanceCaveat: false });
+    localStorage.removeItem(ALLOW_SOFTWARE_KEY);
   });
 });
 

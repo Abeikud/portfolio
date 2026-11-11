@@ -6,7 +6,7 @@ import styles from './SettingsMenu.module.css';
 
 /** The gear at the top of the icon rail, with a small settings panel. */
 export function SettingsMenu() {
-  const { reduceMotion, setReduceMotion } = usePlayer();
+  const { reduceMotion, setReduceMotion, effects3d, setEffects3d } = usePlayer();
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const gearRef = useRef<HTMLButtonElement>(null);
@@ -58,20 +58,35 @@ export function SettingsMenu() {
           <h2 id={titleId} className={styles.title}>
             Settings
           </h2>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={reduceMotion}
-            className={styles.switch}
-            onClick={() => setReduceMotion(!reduceMotion)}
-          >
-            <span>Reduce motion</span>
-            <span className={styles.track} aria-hidden="true">
-              <span className={styles.thumb} />
-            </span>
-          </button>
+          <Switch label="Reduce motion" on={reduceMotion} onChange={setReduceMotion} />
+          <Switch label="3D effects" on={effects3d} onChange={setEffects3d} />
         </div>
       )}
     </div>
+  );
+}
+
+function Switch({
+  label,
+  on,
+  onChange,
+}: {
+  label: string;
+  on: boolean;
+  onChange: (on: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      className={styles.switch}
+      onClick={() => onChange(!on)}
+    >
+      <span>{label}</span>
+      <span className={styles.track} aria-hidden="true">
+        <span className={styles.thumb} />
+      </span>
+    </button>
   );
 }
