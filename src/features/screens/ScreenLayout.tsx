@@ -24,6 +24,8 @@ export interface ScreenLayoutProps {
   trail?: readonly { label: string; to: string }[];
   /** Focus the title on arrival (off when the screen restores focus itself). */
   focusTitle?: boolean;
+  /** One-line intro under the title. */
+  intro?: string;
   children: ReactNode;
 }
 
@@ -44,6 +46,7 @@ export function ScreenLayout({
   backTo = '/',
   trail = [],
   focusTitle = true,
+  intro,
   children,
 }: ScreenLayoutProps) {
   const navigate = useNavigate();
@@ -100,6 +103,7 @@ export function ScreenLayout({
         <h1 ref={headingRef} tabIndex={-1} className={styles.title}>
           {title}
         </h1>
+        {intro && <p className={styles.intro}>{intro}</p>}
       </header>
 
       <div className={styles.content}>{children}</div>

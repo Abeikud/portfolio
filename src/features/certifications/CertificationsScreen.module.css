@@ -1,0 +1,62 @@
+.cabinet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  max-width: 56rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trophy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.6rem 1.2rem 1.4rem;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 1rem;
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgb(251 191 36 / 0.16), transparent 70%),
+    rgb(10 16 32 / 0.62);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+/* Gold cup on a little plinth carrying the issuer's initials. */
+.plinth {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  color: #fbbf24;
+  filter: drop-shadow(0 6px 18px rgb(251 191 36 / 0.3));
+}
+
+.plinth svg {
+  width: 3.4rem;
+  height: 3.4rem;
+}
+
+.issuerMark {
+  padding: 0.1rem 0.55rem;
+  border-radius: 0.3rem;
+  background: rgb(251 191 36 / 0.18);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.name {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.issuer {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
