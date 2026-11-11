@@ -86,10 +86,18 @@
   height: 1rem;
 }
 
-/* Phones: full width along the bottom, above the photo credit. */
+/*
+ * Phones: join the normal flow as the last row of the menu instead of
+ * floating over it. A short iPhone screen otherwise put the toast on top of
+ * the preview's Enter button (caught by e2e on the WebKit iPhone profile).
+ */
 @media (max-width: 40rem) {
   .toast {
-    left: var(--gutter-x);
+    position: relative;
+    right: auto;
+    bottom: auto;
+    grid-column: 1 / -1;
+    align-self: end;
     max-width: none;
   }
 }

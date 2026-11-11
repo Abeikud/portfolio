@@ -21,6 +21,8 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
+    // Real WebKit (Safari's engine) on an iPhone-sized touch screen.
+    { name: 'iphone', use: { ...devices['iPhone 13'] } },
   ],
   webServer: {
     command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,

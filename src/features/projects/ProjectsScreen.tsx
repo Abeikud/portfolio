@@ -40,7 +40,7 @@ export function ProjectsScreen() {
             key: project.slug,
             to: `/projects/${project.slug}`,
             label: project.name,
-            children: <ProjectTile project={project} />,
+            children: (slot) => <ProjectTile project={project} {...slot} />,
           }))}
           selectedKey={tiles.selected}
           onSelect={tiles.select}

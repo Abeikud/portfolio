@@ -9,13 +9,24 @@ export interface HubTileProps {
   /** Small pill on the card art. */
   badge: string;
   variant: TileVariant;
-  title: string;
+  /** The tile's title: TileGrid's link. */
+  title: ReactNode;
   subtitle: string;
   meta: ReactNode;
+  /** Id for the subtitle + meta, which describe the link. */
+  descriptionId?: string;
 }
 
-/** Card art + summary used inside a TileGrid link. */
-export function HubTile({ mono, badge, variant, title, subtitle, meta }: HubTileProps) {
+/** Card art + summary for a TileGrid cell. */
+export function HubTile({
+  mono,
+  badge,
+  variant,
+  title,
+  subtitle,
+  meta,
+  descriptionId,
+}: HubTileProps) {
   return (
     <>
       <span className={styles.art} data-variant={variant} aria-hidden="true">
@@ -24,8 +35,10 @@ export function HubTile({ mono, badge, variant, title, subtitle, meta }: HubTile
       </span>
       <span className={styles.body}>
         <span className={styles.title}>{title}</span>
-        <span className={styles.subtitle}>{subtitle}</span>
-        <span className={styles.meta}>{meta}</span>
+        <span id={descriptionId} className={styles.description}>
+          <span className={styles.subtitle}>{subtitle}</span>
+          <span className={styles.meta}>{meta}</span>
+        </span>
       </span>
     </>
   );

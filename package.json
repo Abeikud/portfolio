@@ -18,9 +18,10 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run test:e2e",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run test:e2e && npm run budgets",
     "screenshots": "playwright test e2e/screenshots.spec.ts",
-    "scenes": "node scripts/fetch-scenes.mjs"
+    "scenes": "node scripts/fetch-scenes.mjs",
+    "budgets": "node scripts/budgets.mjs"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",
@@ -30,6 +31,7 @@
     "react-router": "^8.5.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.65.0",
     "@testing-library/dom": "^10.4.2",
