@@ -1,6 +1,8 @@
 .stage {
   position: relative;
   display: grid;
+  /* minmax(0, …): a long unbreakable child must never widen the screen. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   gap: clamp(1.5rem, 4vh, 2.5rem);
   min-height: 100dvh;

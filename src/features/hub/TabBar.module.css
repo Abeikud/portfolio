@@ -8,6 +8,7 @@
 .tabs {
   display: flex;
   flex-wrap: wrap;
+  min-width: 0; /* let the tabs wrap instead of pushing the page wider */
   gap: 0.35rem;
 }
 
