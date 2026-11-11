@@ -1,0 +1,68 @@
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'top  top'
+    'rail menu';
+  column-gap: clamp(0.9rem, 1.6vw, 1.5rem);
+  row-gap: clamp(1.5rem, 5vh, 3rem);
+  min-height: 100dvh;
+  padding: var(--gutter-y) var(--gutter-x);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/*
+ * Placeholder scene until Phase 4 brings the stadium photos: a dusk sky over a
+ * mown pitch, plus the dark left-hand wash that keeps the menu legible.
+ */
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--color-shade) / 0.88) 0%,
+      rgb(var(--color-shade) / 0.45) 32%,
+      transparent 62%
+    ),
+    linear-gradient(0deg, rgb(var(--color-shade) / 0.75) 0%, transparent 30%),
+    repeating-linear-gradient(100deg, rgb(255 255 255 / 0.035) 0 7vw, transparent 7vw 14vw) bottom /
+      100% 42% no-repeat,
+    radial-gradient(90% 70% at 72% 18%, #3b6a9c 0%, transparent 62%),
+    linear-gradient(180deg, #1a2d4f 0%, #14284a 50%, #123524 58%, #0b2418 100%);
+}
+
+.top {
+  grid-area: top;
+}
+
+.rail {
+  grid-area: rail;
+  padding-top: 0.35rem;
+}
+
+.menu {
+  grid-area: menu;
+}
+
+/* Phones: the rail moves up beside the brand and the menu takes the full width. */
+@media (max-width: 40rem) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'top  rail'
+      'menu menu';
+    align-content: start;
+  }
+
+  .rail {
+    flex-direction: row;
+    align-self: center;
+    padding-top: 0;
+  }
+}

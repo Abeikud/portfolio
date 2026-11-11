@@ -1,0 +1,40 @@
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Heavy italic monogram with a leading slash, in the spirit of a game logo. */
+.mark {
+  position: relative;
+  padding-left: 0.55em;
+  font-family: var(--font-display);
+  font-size: var(--fs-brand);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.mark::before {
+  content: '';
+  position: absolute;
+  top: 0.08em;
+  bottom: 0.08em;
+  left: 0.05em;
+  width: 0.18em;
+  background: var(--color-accent);
+  transform: skewX(-18deg);
+}
+
+.name {
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--color-chip-border);
+  color: var(--color-ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}

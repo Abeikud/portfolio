@@ -1,0 +1,65 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Brightness falls off with distance from the selected item, like the console menu. */
+.item {
+  --fade: 0.22;
+}
+.item[data-distance='0'] {
+  --fade: 1;
+}
+.item[data-distance='1'] {
+  --fade: 0.62;
+}
+.item[data-distance='2'] {
+  --fade: 0.48;
+}
+.item[data-distance='3'] {
+  --fade: 0.37;
+}
+.item[data-distance='4'] {
+  --fade: 0.29;
+}
+
+.button {
+  display: block;
+  padding: 0.5em 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: var(--fs-menu);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-align: left;
+  text-shadow: 0 2px 14px rgb(0 0 0 / 0.45);
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: var(--fade);
+  transform-origin: left center;
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+
+/* Scale (not font-size) so the selection change never reflows the list. */
+.item[data-distance='0'] .button {
+  transform: scale(var(--menu-selected-scale));
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0.3em;
+  border-radius: 2px;
+}

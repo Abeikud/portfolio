@@ -5,6 +5,7 @@ const menu = (page: import('@playwright/test').Page) =>
 
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
+  await expect(menu(page)).toBeVisible();
 });
 
 test('arrow keys move the selection down the menu', async ({ page }) => {
