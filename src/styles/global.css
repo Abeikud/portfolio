@@ -35,12 +35,16 @@ a:hover {
 }
 
 /*
- * Computers are played with the keyboard, like a console: the mouse can't
- * hover, select or click anything (a click shows the controls instead, see
- * MouseHint). The wheel still scrolls the page. Phones and tablets, whose main
- * pointer is touch, keep tapping as normal.
+ * Computers are played with the keyboard, like a console on a TV: the mouse
+ * can't hover, select or click anything, and its pointer is hidden so nothing
+ * suggests it can. The wheel still scrolls the page. Phones and tablets, whose
+ * main pointer is touch, keep tapping as normal.
  */
 @media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: none;
+  }
+
   .app {
     pointer-events: none;
   }
