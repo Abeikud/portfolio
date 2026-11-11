@@ -64,3 +64,20 @@ test('the active scene photo actually loads', async ({ page }) => {
     .poll(() => photo.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
     .toBeGreaterThan(0);
 });
+
+test('the preview’s Enter pill is never covered (e.g. by the objective toast)', async ({
+  page,
+}) => {
+  for (const label of ['ABOUT', 'PROJECTS', 'CONTACT']) {
+    await page
+      .getByRole('navigation', { name: 'Main menu' })
+      .getByRole('button', { name: label })
+      .click({ trial: true });
+    await page.keyboard.press(
+      label === 'ABOUT' ? 'Home' : label === 'CONTACT' ? 'End' : 'ArrowDown',
+    );
+    const cta = page.getByRole('link', { name: /^Enter / });
+    // trial: run every actionability check (incl. "receives events") without clicking.
+    await cta.click({ trial: true, timeout: 3000 });
+  }
+});

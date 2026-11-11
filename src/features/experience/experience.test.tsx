@@ -6,7 +6,7 @@ import { resume } from '../../content/resume';
 import { renderApp } from '../../test/renderWithRouter';
 
 const roles = resume.experience;
-const tileLabel = (r: (typeof roles)[number]) => `${r.title}, ${r.company}`;
+const tileLabel = (r: (typeof roles)[number]) => r.title;
 const tiles = () => screen.getByRole('list', { name: 'Roles' });
 const tile = (name: string) => within(tiles()).getByRole('link', { name });
 
@@ -17,10 +17,15 @@ describe('Experience hub', () => {
     expect(
       within(tiles())
         .getAllByRole('link')
-        .map((l) => l.getAttribute('aria-label')),
+        .map((l) => l.textContent),
     ).toEqual(roles.map(tileLabel));
     for (const role of roles) {
-      expect(within(tile(tileLabel(role))).getByText(formatRange(role.dates))).toBeInTheDocument();
+      expect(tile(tileLabel(role))).toHaveAccessibleDescription(
+        expect.stringContaining(formatRange(role.dates)),
+      );
+      expect(tile(tileLabel(role))).toHaveAccessibleDescription(
+        expect.stringContaining(role.company),
+      );
     }
   });
 

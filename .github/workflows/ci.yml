@@ -44,6 +44,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:e2e
+      # The e2e web server already built dist/; check what visitors download.
+      - run: npm run budgets
       - uses: actions/upload-artifact@v7
         if: failure()
         with:

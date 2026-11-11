@@ -24,13 +24,14 @@ export function ExperienceScreen() {
         items={resume.experience.map((role, i) => ({
           key: role.id,
           to: `/experience/${role.id}`,
-          label: `${role.title}, ${role.company}`,
-          children: (
+          label: role.title,
+          children: ({ link, descriptionId }) => (
             <HubTile
               mono={acronym(role.company)}
               badge={String(role.dates.start.year)}
               variant={VARIANTS[i % VARIANTS.length]!}
-              title={role.title}
+              title={link}
+              descriptionId={descriptionId}
               subtitle={role.team ? `${role.company} · ${role.team}` : role.company}
               meta={formatRange(role.dates)}
             />

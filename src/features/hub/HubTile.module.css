@@ -73,3 +73,9 @@
   font-size: 0.8rem;
   font-weight: 600;
 }
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}

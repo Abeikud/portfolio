@@ -9,7 +9,12 @@ const items: TileItem[] = ['a', 'b', 'c', 'd', 'e'].map((key) => ({
   key,
   to: `/things/${key}`,
   label: `Thing ${key.toUpperCase()}`,
-  children: <span>{key}</span>,
+  children: ({ link, descriptionId }) => (
+    <>
+      {link}
+      <span id={descriptionId}>about {key}</span>
+    </>
+  ),
 }));
 
 function Harness(props: {
@@ -115,6 +120,12 @@ describe('TileGrid', () => {
   it('can restore focus to the selected tile on mount', () => {
     renderGrid({ start: 'b', focusOnMount: true });
     expect(tile('Thing B')).toHaveFocus();
+  });
+
+  it('names each link by its visible title and describes it with the rest of the card', () => {
+    renderGrid();
+    expect(tile('Thing B')).toHaveTextContent(/^Thing B$/);
+    expect(tile('Thing B')).toHaveAccessibleDescription('about b');
   });
 
   it('falls back to the first tile when the remembered one is gone', () => {

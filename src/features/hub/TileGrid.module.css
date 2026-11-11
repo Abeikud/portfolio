@@ -7,13 +7,10 @@
   list-style: none;
 }
 
+/* The card. Its title link stretches over it (see .link::after). */
 .cell {
+  position: relative;
   display: flex;
-}
-
-.tile {
-  display: flex;
-  flex: 1;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--color-chip-border);
@@ -21,7 +18,7 @@
   background: rgb(10 16 32 / 0.62);
   backdrop-filter: blur(10px);
   color: var(--color-ink);
-  text-decoration: none;
+  cursor: pointer;
   transition:
     transform var(--dur-med) var(--ease-out),
     border-color var(--dur-fast) var(--ease-out),
@@ -29,7 +26,7 @@
 }
 
 /* The selected tile lifts and glows, like a highlighted card in a console hub. */
-.cell[data-selected='true'] .tile {
+.cell[data-selected='true'] {
   border-color: var(--color-accent);
   box-shadow:
     0 0 0 1px var(--color-accent),
@@ -38,15 +35,28 @@
   transform: translateY(-4px) scale(1.015);
 }
 
-.tile:focus {
-  outline: none;
-}
-
-.tile:focus-visible {
+.cell:has(.link:focus-visible) {
   outline: 2px solid var(--color-ink);
   outline-offset: 3px;
 }
 
-.tile:hover {
-  color: var(--color-ink);
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: inherit;
+}
+
+.link:focus {
+  outline: none;
+}
+
+/* Stretched link: the whole card is the click/tap target. */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }

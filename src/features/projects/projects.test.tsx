@@ -8,7 +8,7 @@ const tiles = () => screen.getByRole('list', { name: 'Projects' });
 const tileNames = () =>
   within(tiles())
     .getAllByRole('link')
-    .map((l) => l.getAttribute('aria-label'));
+    .map((l) => l.textContent);
 const tile = (name: string) => within(tiles()).getByRole('link', { name });
 const isSelected = (el: HTMLElement) => el.closest('li')?.dataset.selected === 'true';
 
@@ -78,6 +78,13 @@ describe('Projects hub', () => {
       expect(within(menu).getByRole('button', { name: 'PROJECTS' })).toHaveFocus(),
     );
   });
+});
+
+it('describes each tile with its tagline', () => {
+  renderApp('/projects');
+  expect(tile('StartingFive')).toHaveAccessibleDescription(
+    expect.stringContaining(resume.projects[0]!.tagline),
+  );
 });
 
 describe('Project detail', () => {
