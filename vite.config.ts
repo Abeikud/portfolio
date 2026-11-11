@@ -1,11 +1,24 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolveDeploy } from './config/deploy';
 
-// Served from https://<user>.github.io/portfolio/ on GitHub Pages.
+// GitHub Pages (/portfolio/) by default; the domain root on Vercel. See config/deploy.ts.
+const { base, siteUrl } = resolveDeploy(process.env);
+
 export default defineConfig({
-  base: '/portfolio/',
-  plugins: [react()],
+  base,
+  plugins: [
+    react(),
+    {
+      // index.html uses __SITE_URL__ for its canonical and link-preview URLs.
+      name: 'site-url',
+      transformIndexHtml: {
+        order: 'pre',
+        handler: (html) => html.replaceAll('__SITE_URL__', siteUrl),
+      },
+    },
+  ],
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
