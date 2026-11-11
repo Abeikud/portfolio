@@ -68,7 +68,8 @@ The optional Phase 10 (a Three.js scene layer) was left out of v1. See
   - **axe**: no serious or critical WCAG 2.2 AA issues on any route
   - **no sideways scrolling** on any route at 390, 768 and 1440 px
   - a **keyboard-only tour** of the whole site
-- **Size budgets**: entry JS under 130 KB gzipped, each scene photo under 300 KB
+- **Size budgets**: entry JS under 130 KB gzipped, each scene photo under 300 KB,
+  favicon SVG under 4 KB
 - **Privacy**: tests fail if a phone number appears anywhere in the content or
   the rendered pages
 
@@ -82,6 +83,13 @@ duplicate skills and no placeholder copy.
 **Resume:** `public/DDAMPSON_RESUME.pdf`, linked from `resume.contact.resumePdf`.
 It opens in a new tab in the browser's PDF viewer. To update it, replace the file and
 keep the name, or change `resumePdf`.
+
+**Icons:** the "D." monogram (white letters with a solid 3D extrusion on a charcoal
+tile) is drawn from the site's Barlow ExtraBold outlines in
+[`scripts/icons.mjs`](scripts/icons.mjs). `npm run icons` rebuilds `favicon.svg`, the
+16/32 px PNGs, `favicon.ico`, the 180 px Apple touch icon and the manifest icons
+(`site.webmanifest`) in `public/`. Tests check every size, that the touch icon is
+opaque, and that the maskable icon stays inside Android's safe zone.
 
 **Stadium photos:** these are freely licensed images from Wikimedia Commons, listed in
 [`src/content/scenes.json`](src/content/scenes.json) and credited on screen and in
@@ -118,6 +126,7 @@ Vercel-style deploy is checked on every PR.
 | `npm run budgets`     | Check build sizes (after a build)                |
 | `npm run check`       | Everything CI runs                               |
 | `npm run scenes`      | Download and optimise the scene photos           |
+| `npm run icons`       | Rebuild the favicon and home-screen icons        |
 | `npm run screenshots` | Capture review screenshots (`SCREENSHOTS_DIR=…`) |
 | `npm run build`       | Production build to `dist/`                      |
 

@@ -11,6 +11,13 @@ const BUDGETS = [
   ['stylesheet (gzip)', /^assets\/index-.*\.css$/, 'gzip', 12 * KB],
   ['each scene photo', /^assets\/.*\.webp$/, 'raw', 300 * KB],
   ['social preview image', /^og\.jpg$/, 'raw', 100 * KB],
+  ['favicon (SVG)', /^favicon\.svg$/, 'raw', 4 * KB],
+  [
+    'each app icon (PNG/ICO)',
+    /^(favicon(-\d+x\d+\.png|\.ico)|apple-touch-icon\.png|icon-.*\.png)$/,
+    'raw',
+    40 * KB,
+  ],
 ];
 
 const walk = (dir) =>
