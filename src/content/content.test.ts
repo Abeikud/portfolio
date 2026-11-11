@@ -169,3 +169,10 @@ describe('scene photo credits', () => {
     expect(scene.position).toMatch(/^\d{1,3}% \d{1,3}%$/);
   });
 });
+
+describe('launch readiness', () => {
+  it('has no placeholder copy left anywhere in the content', () => {
+    const everything = JSON.stringify({ resume, sections, scenes });
+    expect(everything).not.toMatch(/\b(TODO|TBD|FIXME|lorem ipsum|placeholder)\b/i);
+  });
+});

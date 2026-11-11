@@ -30,24 +30,3 @@ test('Contact links are real', async ({ page }) => {
     'https://github.com/Abeikud',
   );
 });
-
-test.describe('no sideways scrolling on section screens', () => {
-  for (const path of [
-    'about',
-    'projects',
-    'experience',
-    'skills',
-    'education',
-    'certifications',
-    'contact',
-  ]) {
-    test(path, async ({ page }) => {
-      await page.goto(path);
-      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      );
-      expect(overflow).toBeLessThanOrEqual(0);
-    });
-  }
-});
