@@ -33,7 +33,8 @@
     "license": "CC BY 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
     "source": "https://commons.wikimedia.org/wiki/File:Artificial_grass_playground_-_Z%C3%A1skalie_-_Doln%C3%BD_Kub%C3%ADn_01.jpg",
-    "position": "70% 50%"
+    "position": "70% 50%",
+    "soften": 0.8
   },
   {
     "id": "education",

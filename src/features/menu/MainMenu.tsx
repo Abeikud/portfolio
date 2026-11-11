@@ -1,10 +1,12 @@
-import { useReducer } from 'react';
+import { useId, useReducer } from 'react';
 import { sections as defaultSections } from '../../content/sections';
 import type { Section } from '../../content/types';
 import { IconRail } from '../hud/IconRail';
+import { SceneBackground } from '../scene/SceneBackground';
 import { BrandMark } from './BrandMark';
 import { createMenuState, menuReducer } from './menuReducer';
 import { MenuList } from './MenuList';
+import { PreviewPanel } from './PreviewPanel';
 import { useMenuKeyboard } from './useMenuKeyboard';
 import styles from './MainMenu.module.css';
 
@@ -13,9 +15,11 @@ export interface MainMenuProps {
   onActivate?: (section: Section) => void;
 }
 
-/** The home screen: brand, icon rail and the big section menu over the scene. */
+/** The home screen: stadium scene, brand, icon rail, section menu and preview. */
 export function MainMenu({ sections = defaultSections, onActivate }: MainMenuProps) {
   const [state, dispatch] = useReducer(menuReducer, sections.length, createMenuState);
+  const blurbId = useId();
+  const current = sections[state.selected];
 
   const activate = (index: number) => {
     const section = sections[index];
@@ -31,7 +35,7 @@ export function MainMenu({ sections = defaultSections, onActivate }: MainMenuPro
 
   return (
     <div className={styles.stage}>
-      <div className={styles.scene} aria-hidden="true" />
+      {current && <SceneBackground order={sections.map((s) => s.id)} activeId={current.id} />}
       <header className={styles.top}>
         <BrandMark />
       </header>
@@ -42,7 +46,11 @@ export function MainMenu({ sections = defaultSections, onActivate }: MainMenuPro
           selected={state.selected}
           onSelect={(index) => dispatch({ type: 'select', index })}
           onActivate={activate}
+          describedBy={blurbId}
         />
+      </div>
+      <div className={styles.preview}>
+        {current && <PreviewPanel section={current} blurbId={blurbId} />}
       </div>
     </div>
   );

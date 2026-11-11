@@ -1,3 +1,4 @@
+import data from './scenes.json';
 import type { SectionId } from './types';
 
 /** Attribution for a menu scene's background photo (all from Wikimedia Commons). */
@@ -10,7 +11,14 @@ export interface SceneCredit {
   source: string;
   /** CSS object-position keeping the photo's subject in frame. */
   position: string;
+  /** Extra blur applied by scripts/fetch-scenes.mjs for very busy photos. */
+  soften?: number;
 }
 
-// Stub: wired to scenes.json in the green step of Phase 4.
-export const scenes = {} as Record<SectionId, SceneCredit>;
+/**
+ * Scene credits keyed by section. scenes.json is shared with the image script;
+ * content.test.ts checks every section has a valid entry.
+ */
+export const scenes = Object.fromEntries(
+  (data as SceneCredit[]).map((scene) => [scene.id, scene]),
+) as Record<SectionId, SceneCredit>;

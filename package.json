@@ -19,7 +19,8 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run test:e2e",
-    "screenshots": "playwright test e2e/screenshots.spec.ts"
+    "screenshots": "playwright test e2e/screenshots.spec.ts",
+    "scenes": "node scripts/fetch-scenes.mjs"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

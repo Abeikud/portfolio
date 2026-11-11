@@ -1,0 +1,104 @@
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scene);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity calc(var(--dur-med) * 2.4) var(--ease-out);
+}
+
+.layer[data-active='true'] {
+  opacity: 1;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+}
+
+/* Slow "camera drift", standing in for the live 3D scene of a console menu. */
+.root[data-drift='true'] .layer[data-active='true'] .photo {
+  animation: drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.6%, -1%, 0);
+  }
+}
+
+/*
+ * Legibility: a dark wash behind the menu (left) and footer (bottom), plus a
+ * soft scrim where the preview panel sits so bright skies and white goal
+ * frames never fight the copy.
+ */
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      58% 62% at 36% 30%,
+      rgb(var(--color-shade) / 0.5) 0%,
+      rgb(var(--color-shade) / 0.25) 55%,
+      transparent 80%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(var(--color-shade) / 0.9) 0%,
+      rgb(var(--color-shade) / 0.72) 30%,
+      rgb(var(--color-shade) / 0.4) 55%,
+      rgb(var(--color-shade) / 0.08) 82%
+    ),
+    linear-gradient(0deg, rgb(var(--color-shade) / 0.8) 0%, transparent 32%),
+    linear-gradient(180deg, rgb(var(--color-shade) / 0.5) 0%, transparent 22%);
+}
+
+.credit {
+  position: absolute;
+  right: var(--gutter-x);
+  bottom: calc(var(--gutter-y) * 0.6);
+  z-index: 1;
+  margin: 0;
+  color: var(--color-ink-faint);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+}
+
+.credit a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+.credit a:hover,
+.credit a:focus-visible {
+  color: var(--color-ink);
+}
+
+/* Phones: the photo sits behind a stacked layout, so shade the whole frame. */
+@media (max-width: 40rem) {
+  .shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(var(--color-shade) / 0.55) 0%,
+        rgb(var(--color-shade) / 0.88) 70%
+      ),
+      linear-gradient(90deg, rgb(var(--color-shade) / 0.5) 0%, transparent 70%);
+  }
+
+  .credit {
+    left: var(--gutter-x);
+    right: auto;
+  }
+}

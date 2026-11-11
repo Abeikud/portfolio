@@ -1,0 +1,97 @@
+.panel {
+  max-width: 34rem;
+  animation: enter var(--dur-med) var(--ease-out) both;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0.9rem, 0, 0);
+  }
+}
+
+.emblem {
+  display: block;
+  width: clamp(2.75rem, 2rem + 2vw, 3.75rem);
+  height: auto;
+  margin-bottom: 1.1rem;
+  color: var(--color-ink);
+  filter: drop-shadow(0 4px 18px rgb(0 0 0 / 0.5));
+  transform: skewX(-8deg);
+}
+
+.kicker {
+  margin: 0 0 0.4rem;
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.headline {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1rem + 1.4vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1.02;
+  text-shadow: 0 2px 18px rgb(0 0 0 / 0.5);
+}
+
+.blurb {
+  margin: 0 0 0.8rem;
+  color: var(--color-ink);
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.5;
+  text-shadow: 0 1px 10px rgb(0 0 0 / 0.6);
+}
+
+.highlights {
+  margin: 0 0 1.6rem;
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* White pill with a "key" glyph, like a console button prompt. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.1rem 0.5rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.cta:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.key {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.key svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}

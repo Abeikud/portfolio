@@ -11,13 +11,15 @@ export interface MenuListProps {
   selected: number;
   onSelect: (index: number) => void;
   onActivate: (index: number) => void;
+  /** Id of an element describing the selected item (the preview blurb). */
+  describedBy?: string;
 }
 
 /**
  * The big vertical menu. Selection is visual (size + brightness, fading with
  * distance) and mirrored by aria-current and a roving tabindex.
  */
-export function MenuList({ items, selected, onSelect, onActivate }: MenuListProps) {
+export function MenuList({ items, selected, onSelect, onActivate, describedBy }: MenuListProps) {
   const listRef = useRef<HTMLUListElement>(null);
   const lastSelected = useRef(selected);
 
@@ -57,6 +59,7 @@ export function MenuList({ items, selected, onSelect, onActivate }: MenuListProp
                 type="button"
                 className={styles.button}
                 aria-current={isSelected ? 'true' : undefined}
+                aria-describedby={isSelected ? describedBy : undefined}
                 tabIndex={isSelected ? 0 : -1}
                 onPointerEnter={handlePointerEnter(index)}
                 onClick={handleClick(index)}
