@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 
 const tiles = (page: Page) => page.getByRole('list', { name: 'Projects' });
 
-test('keyboard: menu → Projects → a project → back → back', async ({ page }) => {
+test('keyboard: menu → Projects → a project → back → back', async ({ page, isMobile }) => {
   await page.goto('./');
   await expect(page.getByRole('navigation', { name: 'Main menu' })).toBeVisible();
 
@@ -10,7 +10,9 @@ test('keyboard: menu → Projects → a project → back → back', async ({ pag
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { level: 1, name: 'PROJECTS' })).toBeVisible();
 
-  await page.keyboard.press('ArrowRight');
+  // Tiles sit in a row on desktop and a single column on phones; the grid
+  // measures its real columns, so the second tile is → or ↓ respectively.
+  await page.keyboard.press(isMobile ? 'ArrowDown' : 'ArrowRight');
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/portfolio\/projects\/disland$/);
   await expect(page.getByRole('heading', { level: 1, name: 'DIsland' })).toBeFocused();

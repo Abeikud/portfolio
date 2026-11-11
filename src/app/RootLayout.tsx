@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router';
-import { MenuSelectionProvider } from './MenuSelectionProvider';
+import { ScreenMemoryProvider } from './ScreenMemoryProvider';
 
 export function RootLayout() {
   return (
-    <MenuSelectionProvider>
+    <ScreenMemoryProvider>
       <main className="app">
         <Outlet />
       </main>
-    </MenuSelectionProvider>
+    </ScreenMemoryProvider>
   );
 }

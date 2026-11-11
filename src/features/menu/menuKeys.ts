@@ -29,6 +29,10 @@ const matches = (target: EventTarget | null, selector: string) =>
 /** True when keys pressed on `target` are text input rather than navigation. */
 export const isTextEntry = (target: EventTarget | null) => matches(target, TEXT_ENTRY);
 
+/** True when `target` turns Enter/Space into a click by itself. */
+export const isNativeActivation = (target: EventTarget | null) =>
+  matches(target, NATIVE_ACTIVATION);
+
 /**
  * Translates a keydown into a menu intent, or null when the menu should leave
  * the key alone (OS/browser shortcuts, typing, or a focused control that will
@@ -39,7 +43,7 @@ export function keyToIntent(event: MenuKeyEvent): MenuIntent | null {
   if (isTextEntry(event.target)) return null;
 
   const intent = KEY_INTENTS[event.key] ?? null;
-  if (intent === 'activate' && (event.repeat || matches(event.target, NATIVE_ACTIVATION))) {
+  if (intent === 'activate' && (event.repeat || isNativeActivation(event.target))) {
     return null;
   }
   return intent;

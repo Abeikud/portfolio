@@ -1,0 +1,52 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+}
+
+.tile {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 0.9rem;
+  background: rgb(10 16 32 / 0.62);
+  backdrop-filter: blur(10px);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition:
+    transform var(--dur-med) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-med) var(--ease-out);
+}
+
+/* The selected tile lifts and glows, like a highlighted card in a console hub. */
+.cell[data-selected='true'] .tile {
+  border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 1px var(--color-accent),
+    0 18px 40px rgb(0 0 0 / 0.45),
+    0 0 36px rgb(60 242 166 / 0.18);
+  transform: translateY(-4px) scale(1.015);
+}
+
+.tile:focus {
+  outline: none;
+}
+
+.tile:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.tile:hover {
+  color: var(--color-ink);
+}

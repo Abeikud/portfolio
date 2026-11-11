@@ -1,5 +1,6 @@
-import { createContext, useContext } from 'react';
+import { sections } from '../content/sections';
 import type { SectionId } from '../content/types';
+import { useScreenMemory } from './screenMemory';
 
 export interface MenuSelection {
   /** The section highlighted in the main menu (kept across screens). */
@@ -13,10 +14,14 @@ export interface MenuSelection {
   clearReturn: () => void;
 }
 
-export const MenuSelectionContext = createContext<MenuSelection | null>(null);
-
+/** The main menu's slice of screen memory. */
 export function useMenuSelection(): MenuSelection {
-  const value = useContext(MenuSelectionContext);
-  if (!value) throw new Error('useMenuSelection must be used inside <MenuSelectionProvider>');
-  return value;
+  const memory = useScreenMemory('menu');
+  return {
+    selectedId: (memory.selected as SectionId | undefined) ?? sections[0]!.id,
+    setSelectedId: memory.select,
+    returnPending: memory.returnPending,
+    markScreenVisit: memory.markReturn,
+    clearReturn: memory.clearReturn,
+  };
 }

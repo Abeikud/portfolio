@@ -24,6 +24,14 @@ function Harness({ onChange = vi.fn() }: { onChange?: (id: string) => void }) {
           onChange(id);
         }}
       />
+      <div id="t-panel">
+        <a href="#one" tabIndex={-1}>
+          One
+        </a>
+        <a href="#two" tabIndex={0}>
+          Two
+        </a>
+      </div>
       <input aria-label="Notes" />
     </>
   );
@@ -77,6 +85,16 @@ describe('TabBar', () => {
 
     expect(selected()).toHaveTextContent('Web');
     expect(screen.getByRole('tab', { name: 'Web' })).toHaveFocus();
+  });
+
+  it('↓ from a tab drops focus onto the panel’s current item', async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+    screen.getByRole('tab', { name: 'All' }).focus();
+
+    await user.keyboard('{ArrowDown}');
+
+    expect(screen.getByRole('link', { name: 'Two' })).toHaveFocus();
   });
 
   it('keeps only the active tab in the tab order', () => {

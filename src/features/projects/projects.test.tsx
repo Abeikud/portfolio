@@ -53,7 +53,8 @@ describe('Projects hub', () => {
     const user = userEvent.setup();
     const { router } = renderApp('/projects');
     await user.click(screen.getByRole('tab', { name: 'Web' }));
-    await user.keyboard('{ArrowRight}{Enter}');
+    // Focus is on the tab now, where ←/→ switch tabs; ↓ drops into the tiles.
+    await user.keyboard('{ArrowDown}{ArrowRight}{Enter}');
     await screen.findByRole('heading', { level: 1, name: 'Portfolio Website' });
 
     await user.keyboard('{Escape}');
