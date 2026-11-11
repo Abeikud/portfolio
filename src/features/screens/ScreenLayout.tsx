@@ -1,5 +1,5 @@
 import { ChevronLeft } from 'lucide-react';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useEffectEvent, useRef, type ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useMenuSelection } from '../../app/menuSelectionContext';
 import { useBackKey } from '../../app/useBackKey';
@@ -20,6 +20,10 @@ export interface ScreenLayoutProps {
   scene?: SectionId;
   /** Where Back goes. */
   backTo?: string;
+  /** Crumbs between "Main menu" and this screen. */
+  trail?: readonly { label: string; to: string }[];
+  /** Focus the title on arrival (off when the screen restores focus itself). */
+  focusTitle?: boolean;
   children: ReactNode;
 }
 
@@ -38,6 +42,8 @@ export function ScreenLayout({
   sectionId,
   scene = sectionId,
   backTo = '/',
+  trail = [],
+  focusTitle = true,
   children,
 }: ScreenLayoutProps) {
   const navigate = useNavigate();
@@ -48,9 +54,10 @@ export function ScreenLayout({
   useDocumentTitle(documentTitle);
 
   // Move focus to the title so keyboard and screen-reader users start here.
-  useEffect(() => {
-    headingRef.current?.focus({ preventScroll: true });
-  }, [location.pathname]);
+  const focusHeading = useEffectEvent(() => {
+    if (focusTitle) headingRef.current?.focus({ preventScroll: true });
+  });
+  useEffect(() => focusHeading(), [location.pathname]);
 
   // Keep the menu in sync (deep links included) and flag the coming return.
   useEffect(() => {
@@ -78,6 +85,13 @@ export function ScreenLayout({
                 Main menu
               </Link>
             </li>
+            {trail.map((step) => (
+              <li key={step.to}>
+                <Link to={step.to} viewTransition>
+                  {step.label}
+                </Link>
+              </li>
+            ))}
             <li>
               <span aria-current="page">{crumb}</span>
             </li>

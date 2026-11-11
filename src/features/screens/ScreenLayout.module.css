@@ -59,6 +59,7 @@
   letter-spacing: -0.01em;
   line-height: 0.95;
   text-shadow: 0 4px 30px rgb(0 0 0 / 0.5);
+  text-transform: uppercase;
 }
 
 /* Focus is moved here programmatically on arrival; no ring needed. */

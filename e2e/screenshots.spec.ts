@@ -39,6 +39,7 @@ test('capture a section screen and the not-found screen', async ({ page }, testI
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const [name, path] of [
     ['screen-projects', 'projects'],
+    ['screen-project-detail', 'projects/startingfive'],
     ['screen-not-found', 'no-such-page'],
   ] as const) {
     await page.goto(path);
