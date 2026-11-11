@@ -27,6 +27,7 @@
 }
 
 .button {
+  position: relative;
   display: block;
   padding: 0.5em 0;
   border: 0;
@@ -58,8 +59,23 @@
   outline: none;
 }
 
-.button:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 0.3em;
-  border-radius: 2px;
+/*
+ * Focus always follows the selection, so size + brightness already mark it.
+ * Keyboard users also get a skewed accent bar, echoing the logo's slash.
+ */
+.button:focus-visible::before {
+  content: '';
+  position: absolute;
+  top: 0.55em;
+  bottom: 0.55em;
+  left: -0.6em;
+  width: 0.16em;
+  background: var(--color-accent);
+  transform: skewX(-18deg);
+}
+
+@media (forced-colors: active) {
+  .button:focus-visible {
+    outline: 2px solid CanvasText;
+  }
 }
