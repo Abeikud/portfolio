@@ -55,6 +55,18 @@ export const resume: Resume = {
       ],
     },
     {
+      id: 'buchanan-technical-support-analyst',
+      title: 'Technical Support Analyst',
+      company: 'Buchanan Technologies',
+      dates: { start: { year: 2025, month: 11 }, end: { year: 2026, month: 8 } },
+      stack: ['Hardware', 'Software', 'Networking', 'Remote support'],
+      bullets: [
+        'Resolved hardware, software, account and network issues for client end users by phone, email and remote session, documenting each ticket from triage to resolution.',
+        'Followed documented troubleshooting and escalation procedures, handing complex issues off to higher-tier teams with clear notes.',
+        'Explained technical fixes to non-technical users in plain language, adjusting each explanation to the audience.',
+      ],
+    },
+    {
       id: 'upei-teaching-assistant',
       title: 'Teaching Assistant',
       company: 'University of Prince Edward Island',

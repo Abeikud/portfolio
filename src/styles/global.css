@@ -34,6 +34,18 @@ a:hover {
   min-height: 100dvh;
 }
 
+/*
+ * Computers are played with the keyboard, like a console: the mouse can't
+ * hover, select or click anything (a click shows the controls instead, see
+ * MouseHint). The wheel still scrolls the page. Phones and tablets, whose main
+ * pointer is touch, keep tapping as normal.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .app {
+    pointer-events: none;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

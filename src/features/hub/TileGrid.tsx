@@ -4,7 +4,6 @@ import {
   useId,
   useLayoutEffect,
   useRef,
-  type PointerEvent,
   type ReactElement,
   type ReactNode,
 } from 'react';
@@ -52,12 +51,13 @@ function measureColumns(list: HTMLElement | null): number {
 }
 
 /**
- * A console-style tile grid. Each card has exactly one link, its title, whose
- * click area is stretched over the whole card; the rest of the card describes
- * it (aria-describedby). That keeps link names short and equal to their
- * visible text (WCAG 2.5.3), which axe flagged on the earlier version.
- * arrows / WASD move a selection in 2D from
- * anywhere on the screen, Enter opens it, hover selects, focus follows.
+ * A console-style tile grid: arrows / WASD move a selection in 2D from
+ * anywhere on the screen, Enter opens it, and focus follows. Mouse movement is
+ * ignored (computers are played with the keyboard; touch still taps).
+ *
+ * Each card has exactly one link, its title, whose click area stretches over
+ * the whole card; the rest of the card describes it (aria-describedby). That
+ * keeps link names short and equal to their visible text (WCAG 2.5.3).
  */
 export function TileGrid({
   label,
@@ -124,10 +124,6 @@ export function TileGrid({
     if (free) linkAt(selected)?.focus({ preventScroll: true });
   }, [selected]);
 
-  const handlePointerEnter = (key: string) => (event: PointerEvent) => {
-    if (event.pointerType !== 'touch') onSelect(key);
-  };
-
   return (
     <ul ref={listRef} aria-label={label} className={styles.grid}>
       {items.map((item, index) => {
@@ -145,12 +141,7 @@ export function TileGrid({
           </Link>
         );
         return (
-          <li
-            key={item.key}
-            className={styles.cell}
-            data-selected={index === selected}
-            onPointerEnter={handlePointerEnter(item.key)}
-          >
+          <li key={item.key} className={styles.cell} data-selected={index === selected}>
             {item.children({ link, descriptionId })}
           </li>
         );

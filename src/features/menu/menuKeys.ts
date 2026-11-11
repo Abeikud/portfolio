@@ -16,6 +16,9 @@ const KEY_INTENTS: Record<string, MenuIntent> = {
   End: 'last',
   Enter: 'activate',
   ' ': 'activate',
+  ArrowLeft: 'rail',
+  a: 'rail',
+  A: 'rail',
 };
 
 /** Fields where keys are text input, not navigation. */
@@ -39,6 +42,7 @@ export const isNativeActivation = (target: EventTarget | null) =>
  * handle Enter/Space itself and would otherwise activate twice).
  */
 export function keyToIntent(event: MenuKeyEvent): MenuIntent | null {
+  if (event.defaultPrevented) return null;
   if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) return null;
   if (isTextEntry(event.target)) return null;
 

@@ -10,4 +10,5 @@ export const PROMPTS = {
   move: { keys: ['←↑↓→'], label: 'Move' },
   open: { keys: ['⏎'], label: 'Open' },
   tabs: { keys: ['Q', 'E'], label: 'Tabs' },
+  rail: { keys: ['←'], label: 'Links & settings' },
 } satisfies Record<string, Prompt>;

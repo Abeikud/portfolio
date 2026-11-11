@@ -1,4 +1,4 @@
-import { FileDown, Mail } from 'lucide-react';
+import { FileText, Mail } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { Contact } from '../../content/types';
 import { GitHubIcon, LinkedInIcon } from '../hud/icons';
@@ -10,7 +10,6 @@ interface Card {
   href: string;
   icon: ReactNode;
   external?: boolean;
-  download?: boolean;
 }
 
 /** Strip the scheme and trailing slash for display: "github.com/Abeikud". */
@@ -43,10 +42,11 @@ export function ContactCards({ contact }: { contact: Contact }) {
   if (contact.resumePdf) {
     cards.push({
       label: 'Resume',
-      value: 'Download PDF',
+      value: 'Open PDF',
       href: `${import.meta.env.BASE_URL}${contact.resumePdf}`,
-      icon: <FileDown aria-hidden="true" />,
-      download: true,
+      icon: <FileText aria-hidden="true" />,
+      // Opens in the browser's PDF viewer in a new tab (no download).
+      external: true,
     });
   }
 
@@ -58,7 +58,6 @@ export function ContactCards({ contact }: { contact: Contact }) {
             className={styles.card}
             href={card.href}
             {...(card.external && { target: '_blank', rel: 'noopener noreferrer' })}
-            {...(card.download && { download: '' })}
           >
             <span className={styles.icon}>{card.icon}</span>
             <span className={styles.label}>{card.label}</span>

@@ -2,6 +2,7 @@ import { useEffect, useEffectEvent, useId, useReducer, useRef, type ReactNode } 
 import { sections as defaultSections } from '../../content/sections';
 import type { Section, SectionId } from '../../content/types';
 import { IconRail } from '../hud/IconRail';
+import { RAIL_ITEM } from '../hud/railItem';
 import { KeyPrompts } from '../hud/KeyPrompts';
 import { PROMPTS } from '../hud/prompts';
 import { SceneBackground } from '../scene/SceneBackground';
@@ -43,7 +44,12 @@ export function MainMenu({
     ),
   );
   const blurbId = useId();
+  const stageRef = useRef<HTMLDivElement>(null);
   const current = sections[state.selected];
+
+  const enterRail = () => stageRef.current?.querySelector<HTMLElement>(`[${RAIL_ITEM}]`)?.focus();
+  const leaveRail = () =>
+    stageRef.current?.querySelector<HTMLElement>('nav [aria-current="true"]')?.focus();
 
   // Report selection changes (not the initial one) so the app can remember it.
   const reportSelection = useEffectEvent((index: number) => {
@@ -66,16 +72,17 @@ export function MainMenu({
 
   useMenuKeyboard((intent) => {
     if (intent === 'activate') activate(state.selected);
-    else if (intent !== 'rail') dispatch({ type: intent });
+    else if (intent === 'rail') enterRail();
+    else dispatch({ type: intent });
   });
 
   return (
-    <div className={styles.stage}>
+    <div ref={stageRef} className={styles.stage}>
       {current && <SceneBackground order={sections.map((s) => s.id)} activeId={current.id} />}
       <header className={styles.top}>
         <BrandMark />
       </header>
-      <IconRail className={styles.rail} leading={railLeading} />
+      <IconRail className={styles.rail} leading={railLeading} onExit={leaveRail} />
       <div className={styles.menu}>
         <MenuList
           items={sections}
@@ -90,7 +97,7 @@ export function MainMenu({
         {current && <PreviewPanel section={current} blurbId={blurbId} />}
       </div>
       <div className={styles.prompts}>
-        <KeyPrompts prompts={[PROMPTS.navigate, PROMPTS.select]} />
+        <KeyPrompts prompts={[PROMPTS.navigate, PROMPTS.select, PROMPTS.rail]} />
       </div>
       {children}
     </div>
