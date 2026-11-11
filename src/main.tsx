@@ -11,7 +11,7 @@ import { routes } from './app/routes';
 import './styles/tokens.css';
 import './styles/global.css';
 
-// BASE_URL is "/portfolio/" on GitHub Pages; the router wants it without the slash.
+// BASE_URL is "/" unless BASE_PATH sets a sub-path; the router wants no trailing slash.
 const router = createBrowserRouter(routes, {
   basename: import.meta.env.BASE_URL.replace(/\/$/, ''),
 });

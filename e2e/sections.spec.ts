@@ -14,7 +14,7 @@ test('About shows the bio and links its news to roles', async ({ page, isMobile 
     await page.keyboard.press('Enter');
   }
 
-  await expect(page).toHaveURL(/\/portfolio\/experience\/gov-pei-summer-student$/);
+  await expect(page).toHaveURL(/:\d+\/experience\/gov-pei-summer-student$/);
 });
 
 test('Skills switches categories with E and shows the right cards', async ({ page }) => {
@@ -64,7 +64,7 @@ test('Contact cards: arrow keys move, Enter opens the resume in a new tab', asyn
     page.keyboard.press('Enter'),
   ]);
   expect(pdf.frame().page()).toBe(newTab);
-  await expect(page).toHaveURL(/\/portfolio\/contact$/);
+  await expect(page).toHaveURL(/:\d+\/contact$/);
 });
 
 test('Contact links are real', async ({ page }) => {

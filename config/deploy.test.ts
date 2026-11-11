@@ -1,13 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { resolveDeploy } from './deploy';
+import { CANONICAL_URL, resolveDeploy } from './deploy';
 
 describe('resolveDeploy', () => {
-  it('defaults to GitHub Pages under /portfolio/', () => {
-    expect(resolveDeploy({})).toEqual({
-      base: '/portfolio/',
-      siteUrl: 'https://abeikud.github.io/portfolio/',
-    });
+  it('defaults to the domain root, with www.abeikud.com as the canonical address', () => {
+    expect(CANONICAL_URL).toBe('https://www.abeikud.com/');
+    expect(resolveDeploy({})).toEqual({ base: '/', siteUrl: CANONICAL_URL });
   });
 
   it('serves from the root on Vercel, with previews pointing at the production domain', () => {

@@ -14,7 +14,7 @@ test('keyboard: menu → Projects → a project → back → back', async ({ pag
   // measures its real columns, so the second tile is → or ↓ respectively.
   await page.keyboard.press(isMobile ? 'ArrowDown' : 'ArrowRight');
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/portfolio\/projects\/disland$/);
+  await expect(page).toHaveURL(/:\d+\/projects\/disland$/);
   await expect(page.getByRole('heading', { level: 1, name: 'DIsland' })).toBeFocused();
 
   await page.keyboard.press('Escape');

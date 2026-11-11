@@ -1,10 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 4173;
-/** A second build served from the domain root, the way Vercel serves it. */
-const ROOT_PORT = 4174;
-/** The spec that only makes sense against the root-served build. */
-const ROOT_SPEC = /root\.spec\.ts/;
+/** The GitHub Pages redirect build, served under /portfolio/ like Pages does. */
+const PAGES_PORT = 4174;
+/** The spec that only makes sense against the Pages redirect build. */
+const PAGES_SPEC = /pages-redirect\.spec\.ts/;
 const isCI = !!process.env.CI;
 
 // E2E runs against the production build (`vite preview`) so we test what ships.
@@ -16,36 +16,35 @@ export default defineConfig({
   workers: isCI ? 1 : undefined,
   reporter: isCI ? [['github'], ['html', { open: 'never' }]] : [['list']],
   use: {
-    baseURL: `http://localhost:${PORT}/portfolio/`,
+    baseURL: `http://localhost:${PORT}/`,
     trace: 'on-first-retry',
   },
   projects: [
     {
       name: 'desktop',
-      testIgnore: ROOT_SPEC,
+      testIgnore: PAGES_SPEC,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
-    { name: 'mobile', testIgnore: ROOT_SPEC, use: { ...devices['Pixel 7'] } },
+    { name: 'mobile', testIgnore: PAGES_SPEC, use: { ...devices['Pixel 7'] } },
     // Real WebKit (Safari's engine) on an iPhone-sized touch screen.
-    { name: 'iphone', testIgnore: ROOT_SPEC, use: { ...devices['iPhone 13'] } },
-    // The root-served (Vercel-style) build: only root.spec.ts runs here.
+    { name: 'iphone', testIgnore: PAGES_SPEC, use: { ...devices['iPhone 13'] } },
+    // The old GitHub Pages address, which now only redirects to the domain.
     {
-      name: 'root',
-      testMatch: ROOT_SPEC,
-      use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${ROOT_PORT}/` },
+      name: 'pages',
+      testMatch: PAGES_SPEC,
+      use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${PAGES_PORT}` },
     },
   ],
   webServer: [
     {
       command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
-      url: `http://localhost:${PORT}/portfolio/`,
+      url: `http://localhost:${PORT}/`,
       reuseExistingServer: !isCI,
       timeout: 120_000,
     },
     {
-      command: `npx vite build --outDir dist-root --emptyOutDir && npx vite preview --outDir dist-root --port ${ROOT_PORT} --strictPort`,
-      env: { BASE_PATH: '/', SITE_URL: 'https://example.test/' },
-      url: `http://localhost:${ROOT_PORT}/`,
+      command: `node scripts/pages-redirect.mjs && npx vite preview --outDir dist-pages --base /portfolio/ --port ${PAGES_PORT} --strictPort`,
+      url: `http://localhost:${PAGES_PORT}/portfolio/`,
       reuseExistingServer: !isCI,
       timeout: 120_000,
     },

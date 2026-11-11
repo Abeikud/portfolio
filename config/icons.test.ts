@@ -180,7 +180,7 @@ describe('site.webmanifest', () => {
       ]),
     );
     for (const icon of manifest.icons) {
-      // Relative so it works under /portfolio/ on Pages and / on Vercel.
+      // Relative to the manifest, so it works at any base path.
       expect(icon.src, icon.src).not.toMatch(/^\/|^https?:/);
       expect(icon.type).toBe('image/png');
       const { width, height } = await sharp(join(PUBLIC, icon.src)).metadata();

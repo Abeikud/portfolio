@@ -34,7 +34,7 @@ test('on a computer the mouse is ignored and its pointer hidden, with no pop-up'
     'aria-current',
     'true',
   );
-  await expect(page).toHaveURL(/\/portfolio\/$/);
+  await expect(page).toHaveURL(/:\d+\/$/);
   await expect(page.getByRole('status', { name: 'Keyboard controls' })).toHaveCount(0);
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).cursor)).toBe('none');
 });

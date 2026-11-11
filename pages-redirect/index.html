@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daniel Dampson | Portfolio has moved</title>
+    <link rel="canonical" href="https://www.abeikud.com/" />
+    <script>
+      // The portfolio moved from abeikud.github.io/portfolio to www.abeikud.com.
+      // GitHub Pages serves this page for every old URL (as index.html and
+      // 404.html), so send each visitor to the same page on the domain.
+      (function () {
+        var path = location.pathname
+          .replace(/^\/portfolio(?=\/|$)/, '')
+          .replace(/\/index\.html$/, '/');
+        location.replace(
+          'https://www.abeikud.com' + (path || '/') + location.search + location.hash,
+        );
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=https://www.abeikud.com/" />
+    </noscript>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #070b16;
+        color: #fff;
+        font:
+          500 1.125rem/1.5 system-ui,
+          sans-serif;
+      }
+      a {
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <p>This portfolio has moved to <a href="https://www.abeikud.com/">www.abeikud.com</a>.</p>
+  </body>
+</html>

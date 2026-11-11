@@ -1,4 +1,4 @@
-/** Every route worth checking at launch (relative to the /portfolio/ base). */
+/** Every route worth checking at launch (relative to the site root). */
 export const ROUTES = [
   { name: 'menu', path: './' },
   { name: 'about', path: 'about' },
