@@ -7,4 +7,9 @@ describe('App', () => {
     render(<App />);
     expect(screen.getByRole('main')).toBeInTheDocument();
   });
+
+  it('shows the main menu', () => {
+    render(<App />);
+    expect(screen.getByRole('navigation', { name: 'Main menu' })).toBeInTheDocument();
+  });
 });
